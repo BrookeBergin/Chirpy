@@ -14,7 +14,9 @@ Describe the classes that make up the DAO. Class descriptions should include all
 - String getPassword()
 - Class descriptions should include the method names (i.e., the API) and brief descriptions of what each does and what the parameters and return values are.
 - Chirpy class; an overarching class for each chirp
-- 
+
+- hashtag should be an object
+  
 
 
 **Extra: Support for attaching an image to the Chirp**
