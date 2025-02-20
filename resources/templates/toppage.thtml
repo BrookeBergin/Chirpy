@@ -1,18 +1,35 @@
 <html>
     <head>
-        <title>Welcome to Chirpy!</title>
+        <title>Chipry</title>
+        <link rel="stylesheet" href="toppagestyle.css">
     </head>
+
     <body>
-        <h1>Welcome to Chirpy!</h1>
 
-        <p>
+        <div id="container">
+            <div id="upperHalf">
+                <p>It starts with a chirp...</p>
+            </div>
+            <div id="lowerHalf">
+                <div id="leftLower">
+                </div>
+                <div id="rightLower">
+                </div>
+            </div>
+
+        </div>
+
+
+
+
+
+        <!--<p>
             Hello.  It is now ${date}.  Sadly, Chirpy doesn't do much currently.  But you'll fix that!  (Yay!)
-        </p>
-
-        
-        <h1> this is test code! </h1>
+        </p>        
         <p>
             You can also go to the <a href="/formtest/">form test</a> page or <a href="/listcookies/">this page</a> which lists the cookies.
-        </p>
+        </p>-->
+
+
     </body>
 </html>
