@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>Chirpy Login</title>
-        <link rel="stylesheet" href="static/formteststyle.css">
+        <link rel="stylesheet" href="/static/formteststyle.css">
     </head>
     <body>
         <h1>A Really Ugly Login Form</h1>

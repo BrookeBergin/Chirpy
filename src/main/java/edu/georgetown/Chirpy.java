@@ -6,6 +6,7 @@
 
 package edu.georgetown;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
@@ -16,7 +17,10 @@ import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+
+import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import com.sun.net.httpserver.HttpExchange;
 import edu.georgetown.bll.user.UserService;
 import edu.georgetown.dl.DefaultPageHandler;
 import edu.georgetown.dl.DisplayLogic;
@@ -73,34 +77,6 @@ public class Chirpy {
         try {
             // initialize the web server
             HttpServer server = HttpServer.create(new InetSocketAddress("localhost", PORT), 0);
-
-            // Serve static files from the root directory (or a folder like /static)
-            server.createContext("/static/", exchange -> {
-                String pathString = exchange.getRequestURI().getPath();
-                // Adjust the path to match the location of static files
-                Path filePath = Paths.get("webroot", "resources", "templates", "static", pathString.substring("/static/".length()));
-            
-                if (Files.exists(filePath)) {
-                    byte[] fileContent = Files.readAllBytes(filePath);
-            
-                    // Determine content type based on file extension
-                    String contentType = "text/plain";
-                    if (pathString.endsWith(".css")) {
-                        contentType = "text/css";
-                    } else if (pathString.endsWith(".js")) {
-                        contentType = "application/javascript";
-                    } else if (pathString.endsWith(".html")) {
-                        contentType = "text/html";
-                    }
-            
-                    exchange.getResponseHeaders().set("Content-Type", contentType);
-                    exchange.sendResponseHeaders(200, fileContent.length);
-                    exchange.getResponseBody().write(fileContent);
-                    exchange.getResponseBody().close();
-                } else {
-                    exchange.sendResponseHeaders(404, -1); // File not found
-                }
-            });
 
 
             // each of these "contexts" below indicates a URL path that will be handled by

@@ -1,19 +1,172 @@
 <html>
     <head>
         <title>Chipry</title>
-        <link rel="stylesheet" href="static/toppagestyle.css">
+        <!--<link rel="stylesheet" href="/static/toppagestyle.css">-->
     </head>
+    <style>
+
+        html, body {
+            background-color: white;
+            width: 100%;
+            margin: 0;
+        }
+
+        #container {
+            background-color: rgb(255, 253, 247);
+            border: 1px solid grey;            
+            box-shadow: 3px 5px lightgrey;
+            display: flex;           
+            flex-direction: column;
+            align-items: center;
+            width: 50vw;              
+            height: 60vh;
+            margin: auto;
+            position: absolute;
+            left: 25%;
+            top: 15%; 
+        }
+
+        #upper-half {
+            display: flex;
+            flex-direction: column;     
+            justify-content: center; 
+            flex: 30;
+            text-align: center;
+            width: 100%;              
+            height: 60%; 
+        }
+
+        .tagline{
+            font-family:Georgia, 'Times New Roman', Times, serif;
+            font-style: italic;
+            font-stretch: expanded;
+        }
+        
+        #small-tag
+        {
+            color: black;
+            font-size: 2.5vw;
+            font-weight: 400;
+        }
+
+        #big-tag
+        {
+            color: rgb(253, 216, 93);
+            font-size: 5vw;
+            font-weight: 900;
+            text-shadow: 1px 1px rgb(134 134 134);
+        }
+
+
+        #lower-half {
+            display: flex;
+            flex-direction: row;     
+            justify-content: flex-start; 
+            flex: 70;
+            text-align: center;
+            width: 100%;              
+            height: 60%; 
+        }
+
+        #left-lower {
+            display: flex;
+            flex-direction: row;     
+            justify-content: center; 
+            align-items:center;
+            flex: 40;
+            text-align: center;
+            width: 100%;              
+            height: 100%; 
+        }
+
+        #main-logo{
+            max-width: 100%;
+            margin: 2%;
+        }
+
+        #right-lower {
+            display: flex;
+            flex-direction: column;     
+            justify-content: center; 
+            flex: 60;
+            text-align: center;
+            width: 100%;              
+            height: 100%; 
+        }
+
+        #register-box{
+            display: flex;
+            flex-direction: column;     
+            justify-content: center;
+            align-items: center; 
+            text-align: center;
+            width: 100%;              
+        }
+
+        .button-style{
+            width: 50%;
+            height: 100%;
+            font-family:Georgia, 'Times New Roman', Times, serif;
+            border: 1px solid black;
+            padding: 10px;
+            background-color: white;
+            text-decoration: none;
+            font-size: 2vw;
+        }
+
+        .button-style:hover{
+            background-color: rgb(235, 235, 235);
+        }
+
+        #login-box{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #login-prompt{
+            margin-top: 20px;
+            margin-bottom: 5px;
+            font-style: italic;
+        }
+
+        #login-link{
+            margin: 5px;
+            text-align: end;
+            padding: 5px;
+            border-radius: 35%;
+            width: 50%;
+            text-align: center;
+            background-color:rgb(253, 216, 93);
+            color: black;
+            text-decoration: none;
+        }
+
+        #login-link :hover{
+            background-color:rgb(202, 182, 116);
+        }
+        
+    </style>
 
     <body>
 
         <div id="container">
-            <div id="upperHalf">
-                <p>It starts with a chirp...</p>
+            <div id="upper-half">
+                <p class="tagline" id="big-tag">Chirpy.</p>
             </div>
-            <div id="lowerHalf">
-                <div id="leftLower">
+            <div id="lower-half">
+                <div id="left-lower">
+                    <img src="static/canary.png" alt="Chirpy Logo (a yellow canary)" id="main-logo">
                 </div>
-                <div id="rightLower">
+                <div id="right-lower">
+                    <div id="register-box">
+                        <p class="tagline" id ="small-tag">Start chirping today.</p>
+                        <button class="button-style">Register Now</button>
+                        <div id="login-box">
+                            <p id="login-prompt">Already have an account?</p>
+                            <a href="/formtest/" class="button-style">Login</a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -23,12 +176,12 @@
 
 
 
-        <p>
+        <!--<p>
             Hello.  It is now ${date}.  Sadly, Chirpy doesn't do much currently.  But you'll fix that!  (Yay!)
         </p>        
         <p>
             You can also go to the <a href="/formtest/">form test</a> page or <a href="/listcookies/">this page</a> which lists the cookies.
-        </p>
+        </p>-->
 
 
     </body>
