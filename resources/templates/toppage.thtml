@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>Chipry</title>
-        <link rel="stylesheet" href="toppagestyle.css">
+        <link rel="stylesheet" href="static/toppagestyle.css">
     </head>
 
     <body>
@@ -23,12 +23,12 @@
 
 
 
-        <!--<p>
+        <p>
             Hello.  It is now ${date}.  Sadly, Chirpy doesn't do much currently.  But you'll fix that!  (Yay!)
         </p>        
         <p>
             You can also go to the <a href="/formtest/">form test</a> page or <a href="/listcookies/">this page</a> which lists the cookies.
-        </p>-->
+        </p>
 
 
     </body>
