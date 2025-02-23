@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Chipry</title>
+        <title>Register for Chipry</title>
         <!--<link rel="stylesheet" href="/static/toppagestyle.css">-->
     </head>
     <style>
@@ -119,14 +119,14 @@
             </div>
             <div id="lower-half">
                 <div id="tagline-div">
-                    <p class="tagline" id ="small-tag">Start chirping today.</p>
+                    <p class="tagline" id ="small-tag">REGISTRATION PAGE</p>
                 </div>
                 <div id="buttons-div">
-                    <a href="/registerPage/" class="button-style">Register Now</a>
+                    <a href="registerPage.thtml" class="button-style">Register Now</a>
                     <p id="prompt">Already have an account?</p>
-                    <a href="/formtest/" class="button-style">Login</a>
+                    <a href="formtest.thtml" class="button-style">Login</a>
                     <p id="prompt">For developers</p>
-                    <a href="/showcookies/" class="button-style">Show list of users</a>
+                    <a href="showcookies.thtml" class="button-style">Show list of users</a>
                 </div>
             </div>
         </div>
