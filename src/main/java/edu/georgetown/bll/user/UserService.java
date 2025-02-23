@@ -35,42 +35,33 @@ public boolean registerUser(String username, String password){
     return true;
 }
 
-
-    public Vector<Chirper> getUsers() {
-        // not implemented; you'll need to change this
-        return users;
-    }
-    logger.warning("Login failed: username not found");
-    return false; //username was not found
- }
-
-    public String registerUser(String username, String password, String confirmPass){
+    public boolean registerUser(String username, String password, String confirmPass){
         if(username == null || username.isEmpty()){
             logger.warning("Username cannot be empty.");
-            return("Username cannot be empty");
+            return false;
         }
         
-        for(Chirper user : users){
+        for(Chirper user : registeredUsers){
             if(user.getUsername() == username){
                 logger.warning("Username has already been taken.");
-                return("Username cannot be empty");
+                return false;
             }
         }
 
         if(password == null || password.isEmpty()){
             logger.warning("Password cannot be empty.");
-            return("Password cannot be empty");
+            return false;
         }
 
         if(password != confirmPass){
             logger.warning("Passwords do not match.");
-            return("Passwords do not match.");
+            return false;
         }
         Chirper newUser = new Chirper(username, password);
-        users.add(newUser);
+        registeredUsers.add(newUser);
 
         logger.info("User registered successfully.");
-        return("User registered successfully: " + newUser.getUsername());
+        return true;
     }
 
     public boolean loginUser(String username, String password){
@@ -83,8 +74,12 @@ public boolean registerUser(String username, String password){
                 logger.warning("Login failed due to incorrect password for " + username);
                 return false; //incorrect password entered
             }
+        } else{
+                logger.warning("Login failed due to incorrect username ");
+                return false;
         }
       }
+      return false;
     }
     // methods you'll probably want to add:
     //   registerUser
