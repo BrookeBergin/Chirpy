@@ -25,6 +25,7 @@ import edu.georgetown.bll.user.UserService;
 import edu.georgetown.dl.DefaultPageHandler;
 import edu.georgetown.dl.DisplayLogic;
 import edu.georgetown.dl.ListCookiesHandler;
+import edu.georgetown.dl.RegisterPageHandler;
 import edu.georgetown.dl.TestFormHandler;
 
 public class Chirpy {
@@ -78,11 +79,11 @@ public class Chirpy {
             // initialize the web server
             HttpServer server = HttpServer.create(new InetSocketAddress("localhost", PORT), 0);
 
-
             // each of these "contexts" below indicates a URL path that will be handled by
             // the service. The top-level path is "/", and that should be listed last.
             server.createContext("/formtest/", new TestFormHandler(logger, displayLogic));
             server.createContext("/listcookies/", new ListCookiesHandler(logger, displayLogic));
+            server.createContext("/registerPage/", new RegisterPageHandler(logger, displayLogic));
             server.createContext("/", new DefaultPageHandler(logger, displayLogic));
             // you will need to add to the above list to add new functionality to the web
             // service.  Just make sure that the handler for "/" is listed last.

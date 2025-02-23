@@ -126,7 +126,7 @@
                     <p id="prompt">Already have an account?</p>
                     <a href="/formtest/" class="button-style">Login</a>
                     <p id="prompt">For developers</p>
-                    <a href="/showcookies/" class="button-style">Show list of users</a>
+                    <a href="/listcookies/" class="button-style">Show list of users</a>
                 </div>
             </div>
         </div>
