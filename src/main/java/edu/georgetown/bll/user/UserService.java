@@ -8,19 +8,41 @@ import edu.georgetown.dao.*;
 
 public class UserService {
 
-    private static Logger logger;
-    private Vector<Chirper> users;
-
+ private static Logger logger;
+ private static Vector<Chirper> registeredUsers = new Vector<>();
+  
     public UserService(Logger log) {
         logger = log;
         logger.info("UserService started");
-        users = new Vector<>();
+      
+    } 
+   //Register a user
+   public Vector<Chirper> getUsers() {   
+    return registeredUsers;
+}
+public boolean registerUser(String username, String password){
+    //checking if username is already taken
+    for (Chirper user: registeredUsers){
+        if (user.getUsername().equals(username)){
+            logger.warning("Registration failed: Username is already taken");
+            return false;
+        }
+        
     }
+    Chirper newUser = new Chirper(username, password);
+    registeredUsers.add(newUser);
+    logger.info("user registered sucessfully");
+    return true;
+}
+
 
     public Vector<Chirper> getUsers() {
         // not implemented; you'll need to change this
         return users;
     }
+    logger.warning("Login failed: username not found");
+    return false; //username was not found
+ }
 
     public String registerUser(String username, String password, String confirmPass){
         if(username == null || username.isEmpty()){
@@ -51,17 +73,18 @@ public class UserService {
         return("User registered successfully: " + newUser.getUsername());
     }
 
-    public String loginUser(String username, String password){
-        for(Chirper user : users){
-            if(username == user.getUsername()){
-                if(user.checkPassword(password)){
-                    logger.info("User logged in successfully.");
-                    return("User logged in successfully: " + username);
-                }
+    public boolean loginUser(String username, String password){
+      for (Chirper user: registeredUsers){
+        if (user.getUsername().equals(username)){
+            if (user.checkPassword(password)){
+                logger.info("Login successful for user: " + username);
+                return true;//the login was successful
+            } else{
+                logger.warning("Login failed due to incorrect password for " + username);
+                return false; //incorrect password entered
             }
         }
-        logger.warning("Could not find user.");
-        return("Could not find user.");
+      }
     }
     // methods you'll probably want to add:
     //   registerUser
