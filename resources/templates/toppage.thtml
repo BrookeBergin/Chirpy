@@ -111,8 +111,7 @@
         
     </style>
 
-    <body>
-       
+    <body>     
         <div id="container">
             <div id="upper-half">
                 <p class="tagline" id="big-tag">Chirpy.</p>
@@ -130,6 +129,5 @@
                 </div>
             </div>
         </div>
-
     </body>
 </html>
