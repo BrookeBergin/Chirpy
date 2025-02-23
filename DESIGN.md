@@ -142,24 +142,9 @@ class SessionManager {
 ```
 
 ## Extra Feature
-For Chirpy 1.0, our group has chosen to implement **persistent-state backend storage** using JSON serialization:
-```java
-class DataPersistence {
-    public static void saveUsers(Map<String, User> users) throws IOException {
-        FileWriter writer = new FileWriter("users.json");
-        new Gson().toJson(users, writer);
-        writer.close();
-    }
-    
-    public static Map<String, User> loadUsers() throws IOException {
-        FileReader reader = new FileReader("users.json");
-        return new Gson().fromJson(reader, new TypeToken<HashMap<String, User>>() {}.getType());
-    }
-}
-```
+For Chirpy 1.0, our group has chosen to check if the user regisering to become a chirper is above 18 or not. When registering an account, the user will be asked to enter their age and if they happen to be under 18, they will be prompted to exit. 
 
 
-the old stuff
 
 ## Functionality of Chirpy:
 List and briefly describe the functionalities supported by Chirpy. 
@@ -187,11 +172,5 @@ Things that could be taken off for points:
 - how list of users will be maintain
 - how cookies r used/look it
 
-**Extra: Support for attaching an image to the Chirp**
 
-
-
-
-
-*working on the user registration part*
 
