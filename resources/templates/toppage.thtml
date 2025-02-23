@@ -94,7 +94,7 @@
             text-decoration: none;
             font-size: 1.5vw;
             color: black;
-            border-radius: 40%;
+            border-radius: 39%;
         }
 
         .button-style:hover{
