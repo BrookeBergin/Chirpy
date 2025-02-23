@@ -35,7 +35,12 @@ public boolean registerUser(String username, String password){
     return true;
 }
 
-    public boolean registerUser(String username, String password, String confirmPass){
+    public boolean registerUser(String username, String password, String confirmPass, int age){
+        if(age < 18){
+            logger.warning("You must be 18+ to register as a Chirper. Come back in " + (18 - age) + " years!");
+            return false;
+        }
+        
         if(username == null || username.isEmpty()){
             logger.warning("Username cannot be empty.");
             return false;
