@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Chipry</title>
+        <title>Register for Chipry</title>
         <!--<link rel="stylesheet" href="/static/toppagestyle.css">-->
     </head>
     <style>
@@ -43,13 +43,6 @@
             font-stretch: expanded;
         }
         
-        #small-tag
-        {
-            color: black;
-            font-size: 2.5vw;
-            font-weight: 400;
-        }
-
         #big-tag
         {
             color: rgb(253, 216, 93);
@@ -59,75 +52,56 @@
             margin-bottom: 0;
         }
 
-
         #lower-half {
             display: flex;
-            flex-direction: column;     
-            justify-content: flex-start; 
+            flex-direction: row;     
+            justify-content: center; 
             flex: 70;
             text-align: center;
             width: 100%;              
             height: 60%; 
+            align-items: center;
         }
 
-        #tagline-div
+        #registrationForm
         {
             display: flex;
             justify-content: center;
-        }
-
-        #buttons-div
-        {
-            display: flex;
             flex-direction: column;
+            max-width: 50%;
             align-items: center;
         }
 
 
-        .button-style{
-            width: 30%;
-            height: 100%;
-            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            border: 1px solid black;
-            padding: 10px;
-            background-color: white;
-            text-decoration: none;
-            font-size: 1.5vw;
-            color: black;
-            border-radius: 39%;
-        }
-
-        .button-style:hover{
-            background-color: rgb(235, 235, 235);
-        }
-
-        #prompt{
-            margin-top: 20px;
-            margin-bottom: 5px;
-            font-style: italic;
-        }
-
-        
         
     </style>
 
-    <body>     
+    <body>
+       
         <div id="container">
             <div id="upper-half">
-                <p class="tagline" id="big-tag">Chirpy.</p>
+                <p class="tagline" id="big-tag">Create Account</p>
             </div>
             <div id="lower-half">
-                <div id="tagline-div">
-                    <p class="tagline" id ="small-tag">Start chirping today.</p>
-                </div>
-                <div id="buttons-div">
-                    <a href="/registerPage/" class="button-style">Register Now</a>
-                    <p id="prompt">Already have an account?</p>
-                    <a href="/formtest/" class="button-style">Login</a>
-                    <p id="prompt">For developers</p>
-                    <a href="/listcookies/" class="button-style">Show list of users</a>
-                </div>
+            <form method="post" action="/registerPage/" id="registrationForm">
+                <table border="0">
+                    <tr>
+                        <td>Username</td>
+                        <td><input type="text" name="username" /></td>
+                    </tr>
+                    <tr>
+                        <td>Password</td>
+                        <td><input type="password" name="password" /></td>
+                    </tr>
+                    <tr>
+                        <td>Age</td>
+                        <td><input type="number" name="age" /></td>
+                    </tr>
+                </table>
+                <input type="submit" value="Submit" />
+            </form>
             </div>
         </div>
+
     </body>
 </html>

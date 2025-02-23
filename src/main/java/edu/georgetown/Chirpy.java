@@ -6,18 +6,26 @@
 
 package edu.georgetown;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
+
+import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import com.sun.net.httpserver.HttpExchange;
 import edu.georgetown.bll.user.UserService;
 import edu.georgetown.dl.DefaultPageHandler;
 import edu.georgetown.dl.DisplayLogic;
 import edu.georgetown.dl.ListCookiesHandler;
+import edu.georgetown.dl.RegisterPageHandler;
 import edu.georgetown.dl.TestFormHandler;
 
 public class Chirpy {
@@ -75,6 +83,7 @@ public class Chirpy {
             // the service. The top-level path is "/", and that should be listed last.
             server.createContext("/formtest/", new TestFormHandler(logger, displayLogic));
             server.createContext("/listcookies/", new ListCookiesHandler(logger, displayLogic));
+            server.createContext("/registerPage/", new RegisterPageHandler(logger, displayLogic));
             server.createContext("/", new DefaultPageHandler(logger, displayLogic));
             // you will need to add to the above list to add new functionality to the web
             // service.  Just make sure that the handler for "/" is listed last.

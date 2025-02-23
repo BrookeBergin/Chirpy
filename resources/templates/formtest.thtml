@@ -1,11 +1,12 @@
 <html>
     <head>
         <title>Chirpy Login</title>
+        <link rel="stylesheet" href="/static/formteststyle.css">
     </head>
     <body>
         <h1>A Really Ugly Login Form</h1>
 
-        <p>
+        <p id="container">
             Hello.
             <#if username??>
                 Your username is: ${username}
