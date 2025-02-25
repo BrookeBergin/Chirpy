@@ -31,6 +31,7 @@
             display: flex;
             flex-direction: column;     
             justify-content: center; 
+            align-items: center;
             flex: 30;
             text-align: center;
             width: 100%;              
@@ -38,25 +39,17 @@
         }
 
         .tagline{
+            color: #fdd85d;
             font-family:Georgia, 'Times New Roman', Times, serif;
             font-style: italic;
             font-stretch: expanded;
-        }
-        
-        #small-tag
-        {
-            color: black;
-            font-size: 2.5vw;
-            font-weight: 400;
-        }
-
-        #big-tag
-        {
-            color: rgb(253, 216, 93);
             font-size: 5vw;
             font-weight: 900;
             text-shadow: 1px 1px rgb(134 134 134);
-            margin-bottom: 0;
+            margin-bottom: 30px;
+            border-bottom: 0.5px solid rgba(45, 35, 66, 0.4);
+            max-width: 70%;
+            padding-bottom: 30px;
         }
 
 
@@ -70,12 +63,6 @@
             height: 60%; 
         }
 
-        #tagline-div
-        {
-            display: flex;
-            justify-content: center;
-        }
-
         #buttons-div
         {
             display: flex;
@@ -83,22 +70,32 @@
             align-items: center;
         }
 
-
         .button-style{
             width: 30%;
-            height: 100%;
-            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            border: 1px solid black;
+            height: 48px;
+            font-family: arial, Verdana, 'Segoe UI', Tahoma, Geneva, sans-serif;
+            border-width: 0;
             padding: 10px;
-            background-color: white;
+            background-color: #FCFCFD;
             text-decoration: none;
             font-size: 1.5vw;
-            color: black;
-            border-radius: 39%;
+            border-radius: 50px;
+            box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+                        rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
+                        #D6D6E7 0 -3px 0 inset;
+            box-sizing: border-box;
+            color: #36395A;
+            cursor: pointer;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .button-style:hover{
-            background-color: rgb(235, 235, 235);
+            box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, 
+                        rgba(45, 35, 66, 0.3) 0 7px 13px -3px, 
+                        #fdd85d 0 -3px 0 inset;
+            transform: translateY(-2px);
         }
 
         #prompt{
@@ -106,7 +103,6 @@
             margin-bottom: 5px;
             font-style: italic;
         }
-
         
         
     </style>
@@ -115,18 +111,15 @@
        
         <div id="container">
             <div id="upper-half">
-                <p class="tagline" id="big-tag">Chirpy.</p>
+                <p class="tagline">Chirpy.</p>
             </div>
             <div id="lower-half">
-                <div id="tagline-div">
-                    <p class="tagline" id ="small-tag">Start chirping today.</p>
-                </div>
                 <div id="buttons-div">
-                    <a href="/registerPage/" class="button-style">Register Now</a>
-                    <p id="prompt">Already have an account?</p>
+                    <a href="/registerPage/" class="button-style">Create account</a>
+                    <p id="prompt">already have an account?</p>
                     <a href="/formtest/" class="button-style">Login</a>
-                    <p id="prompt">For developers</p>
-                    <a href="/listcookies/" class="button-style">Show list of users</a>
+                    <p id="prompt">for developers</p>
+                    <a href="/listcookies/" class="button-style">User list</a>
                 </div>
             </div>
         </div>
