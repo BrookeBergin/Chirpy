@@ -40,8 +40,8 @@ public class Chirper implements Serializable {
     }
 
     public void addFollower( Chirper follower ) {
-        // doesn't do anything.  you should probably change this
-        return;
+        /* followers vector in Chiper inserts follower */
+        followers.add(follower);
     }
 
     public Vector<Chirper> getFollowers() {
