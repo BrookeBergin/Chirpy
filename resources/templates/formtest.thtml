@@ -1,33 +1,177 @@
+<!DOCTYPE html>
 <html>
     <head>
-        <title>Chirpy Login</title>
-        <link rel="stylesheet" href="/static/formteststyle.css">
+        <title>Login to Chirpy</title>
     </head>
+    <style>
+
+        html, body {
+            background-color: white;
+            width: 100%;
+            margin: 0;
+        }
+
+        #container {
+            background-color: rgb(255, 253, 247);
+            border: 1px solid grey;            
+            box-shadow: 3px 5px lightgrey;
+            display: flex;           
+            flex-direction: column;
+            align-items: center;
+            width: 50vw;              
+            height: 60vh;
+            margin: auto;
+            position: absolute;
+            left: 25%;
+            top: 15%; 
+        }
+
+        #upper-half {
+            display: flex;
+            flex-direction: column;     
+            justify-content: center; 
+            align-items: center;
+            flex: 30;
+            text-align: center;
+            width: 100%;              
+            height: 60%; 
+        }
+
+        .tagline{
+            color: #fdd85d;
+            font-family:Georgia, 'Times New Roman', Times, serif;
+            font-style: italic;
+            font-stretch: expanded;
+            font-size: 3vw;
+            font-weight: 900;
+            text-shadow: 1px 1px rgb(134 134 134);
+            margin-bottom: 30px;
+            border-bottom: 0.5px solid rgba(45, 35, 66, 0.4);
+            max-width: 70%;
+            padding-bottom: 30px;
+        }
+
+
+        #lower-half {
+            display: flex;
+            flex-direction: column;     
+            justify-content: space-between;
+            margin-bottom: 20px; 
+            align-items: center;
+            flex: 70;
+            text-align: center;
+            width: 100%;              
+            height: 60%; 
+        }
+
+        #buttons-div
+        {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .button-style{
+            width: 30%;
+            height: 48px;
+            font-family: arial, Verdana, 'Segoe UI', Tahoma, Geneva, sans-serif;
+            border-width: 0;
+            padding: 10px;
+            background-color: #FCFCFD;
+            text-decoration: none;
+            font-size: 1vw;
+            border-radius: 50px;
+            box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+                        rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
+                        #D6D6E7 0 -3px 0 inset;
+            box-sizing: border-box;
+            color: #36395A;
+            cursor: pointer;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .button-style:hover{
+            box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, 
+                        rgba(45, 35, 66, 0.3) 0 7px 13px -3px, 
+                        #fdd85d 0 -3px 0 inset;
+            transform: translateY(-2px);
+        }
+
+        #prompt{
+            margin-top: 20px;
+            margin-bottom: 5px;
+            font-style: italic;
+        }
+
+        #loginForm{
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-element{
+            display: flex;
+            flex-direction: row;
+            padding: 5px;
+        }
+
+        #form-div{
+            width: 45%;
+        }
+
+        .form-prompt{
+            flex: 30;
+            font-family: arial, Verdana, 'Segoe UI', Tahoma, Geneva, sans-serif;
+        }
+
+        .form-entry{
+            flex: 70;
+        }
+
+        form-submit{
+
+        }
+
+        #newUser{
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: flex-end;
+        }
+        
+        
+    </style>
+
     <body>
-        <h1>A Really Ugly Login Form</h1>
-
-        <p id="container">
-            Hello.
-            <#if username??>
-                Your username is: ${username}
-            <#else>
-                You have not entered a username.
-            </#if>
-        </p>
-
-        <p>
-            <form method="post" action="/formtest/">
-                <table border="1">
-                    <tr>
-                        <td>Username</td>
-                        <td><input type="text" name="username" /></td>
-                    </tr>
-                    <tr>
-                        <td>Password</td>
-                        <td><input type="password" name="password" /></td>
-                </table>
-                <input type="submit" value="Submit" />
-            </form>
-        </p>
+       
+        <div id="container">
+            <div id="upper-half">
+                <p class="tagline">login</p>
+            </div>
+            <div id="lower-half">
+                <div id="form-div">
+                    <form method="post" action="/formtest/" id="loginForm">
+                        <div class="form-element">
+                            <p class="form-prompt">Username: </p>
+                            <input type="text" name="username" class="form-entry">
+                        </div>
+                        <div class="form-element">
+                            <p class="form-prompt">Password: </p>
+                            <input type="password" name="password" class="form-entry">
+                        </div>
+                        <div class="form-element" style="justify-content: flex-end;">
+                            <input type="submit" value="Submit" class="button-style">
+                        </div>
+                    </form>
+                </div>
+                <div id="newUser">
+                    <p id="prompt">first time logging in?</p>
+                    <a href="/registerPage/" class="button-style" style="width:100%;">Create account</a>
+                </div>
+            </div>
+        </div>
+       
     </body>
 </html>

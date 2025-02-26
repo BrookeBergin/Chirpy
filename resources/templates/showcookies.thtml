@@ -1,26 +1,33 @@
 <html>
     <head>
-        <title>Chirpy</title>
+        <title>Chirpy - Cookies</title>
     </head>
+    <style>
+        html, body {
+            background-color: rgb(255, 253, 247);
+            width: 100%;
+        }   
+    </style>
     <body>
-        <h1>Cookies</h1>
-
-        <p>
-            This page demonstrates reading all of the cookies.  It really shouldn't be a part of a production system.
-        </p>
-
+        <h1>Welcome, developers</h1>
+        <br>
+        <h2>Here's a list of cookies chirpy is using.</h2>
+        <br>
+        <br>
         <h2>Cookie names</h2>
         <ul>
             <#list cookienames as name>
                 <li>${name}</li>
             </#list>
         </ul>
-
+        <br>
         <h2>Cookie values</h2>
         <ul>
             <#list cookievalues as value>
                 <li>${value}</li>
             </#list>
         </ul>
+
+        
     </body>
 </html>

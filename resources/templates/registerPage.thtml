@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Register for Chipry</title>
-        <!--<link rel="stylesheet" href="/static/toppagestyle.css">-->
+        <title>Register Account</title>
     </head>
     <style>
 
@@ -31,6 +30,7 @@
             display: flex;
             flex-direction: column;     
             justify-content: center; 
+            align-items: center;
             flex: 30;
             text-align: center;
             width: 100%;              
@@ -38,41 +38,101 @@
         }
 
         .tagline{
+            color: #fdd85d;
             font-family:Georgia, 'Times New Roman', Times, serif;
             font-style: italic;
             font-stretch: expanded;
-        }
-        
-        #big-tag
-        {
-            color: rgb(253, 216, 93);
-            font-size: 5vw;
+            font-size: 3vw;
             font-weight: 900;
             text-shadow: 1px 1px rgb(134 134 134);
-            margin-bottom: 0;
+            margin-bottom: 30px;
+            border-bottom: 0.5px solid rgba(45, 35, 66, 0.4);
+            max-width: 70%;
+            padding-bottom: 30px;
         }
+
 
         #lower-half {
             display: flex;
-            flex-direction: row;     
-            justify-content: center; 
+            flex-direction: column;     
+            justify-content: space-between;
+            margin-bottom: 10px; 
+            align-items: center;
             flex: 70;
             text-align: center;
             width: 100%;              
             height: 60%; 
-            align-items: center;
         }
 
-        #registrationForm
+        #buttons-div
         {
             display: flex;
-            justify-content: center;
             flex-direction: column;
-            max-width: 50%;
             align-items: center;
         }
 
+        .button-style{
+            width: 30%;
+            height: 48px;
+            font-family: arial, Verdana, 'Segoe UI', Tahoma, Geneva, sans-serif;
+            border-width: 0;
+            padding: 10px;
+            background-color: #FCFCFD;
+            text-decoration: none;
+            font-size: 1vw;
+            border-radius: 50px;
+            box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+                        rgba(45, 35, 66, 0.3) 0 7px 13px -3px,
+                        #D6D6E7 0 -3px 0 inset;
+            box-sizing: border-box;
+            color: #36395A;
+            cursor: pointer;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
 
+        .button-style:hover{
+            box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, 
+                        rgba(45, 35, 66, 0.3) 0 7px 13px -3px, 
+                        #fdd85d 0 -3px 0 inset;
+            transform: translateY(-2px);
+        }
+
+        #prompt{
+            margin-top: 20px;
+            margin-bottom: 5px;
+            font-style: italic;
+        }
+
+        #registrationForm{
+            display:flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-element{
+            display: flex;
+            flex-direction: row;
+            padding: 5px;
+        }
+
+        #form-div{
+            width: 45%;
+        }
+
+        .form-prompt{
+            flex: 30;
+        }
+
+        .form-entry{
+            flex: 70;
+        }
+
+        form-submit{
+
+        }
+        
         
     </style>
 
@@ -80,28 +140,34 @@
        
         <div id="container">
             <div id="upper-half">
-                <p class="tagline" id="big-tag">Create Account</p>
+                <p class="tagline">create account</p>
             </div>
             <div id="lower-half">
-            <form method="post" action="/registerPage/" id="registrationForm">
-                <table border="0">
-                    <tr>
-                        <td>Username</td>
-                        <td><input type="text" name="username" /></td>
-                    </tr>
-                    <tr>
-                        <td>Password</td>
-                        <td><input type="password" name="password" /></td>
-                    </tr>
-                    <tr>
-                        <td>Age</td>
-                        <td><input type="number" name="age" /></td>
-                    </tr>
-                </table>
-                <input type="submit" value="Submit" />
-            </form>
+                <div id="form-div">
+                    <form method="post" action="/registerPage/" id="registrationForm">
+                        <div class="form-element">
+                            <p class="form-prompt">Username: </p>
+                            <input type="text" name="username" class="form-entry">
+                        </div>
+                        <div class="form-element">
+                            <p class="form-prompt">Password: </p>
+                            <input type="password" name="password" class="form-entry">
+                        </div>
+                        <div class="form-element">
+                            <p class="form-prompt">Date of birth: </p>
+                            <input type="date" name="birthday" class="form-entry" style="color:rgba(45, 35, 66, 0.7);">
+                        </div>
+                        <div class="form-element" style="justify-content: flex-end;">
+                            <input type="submit" value="Submit" class="button-style">
+                        </div>
+                    </form>
+                </div>
+                <div id="oldUser">
+                    <p id="prompt">already have an account?</p>
+                    <a href="/formtest/" class="button-style" style="width:100%;">Log in</a>
+                </div>
             </div>
         </div>
-
+       
     </body>
 </html>
