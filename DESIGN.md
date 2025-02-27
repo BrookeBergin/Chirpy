@@ -142,7 +142,7 @@ class SessionManager {
 ```
 
 ## Extra Feature
-For Chirpy 1.0, our group has chosen to check if the user regisering to become a chirper is above 18 or not. When registering an account, the user will be asked to enter their age and if they happen to be under 18, they will be prompted to exit. 
+For Chirpy, our group has chosen to check if the user regisering to become a chirper is above 18 or not. When registering an account, the user will be asked to enter their age and if they happen to be under 18, they will be given a message on how they will only be able to post pictures as their chirp when they are 18 and above. 
 
 
 
