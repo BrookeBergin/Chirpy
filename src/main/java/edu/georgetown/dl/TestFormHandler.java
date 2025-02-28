@@ -9,15 +9,18 @@ import java.util.logging.Logger;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
+import edu.georgetown.bll.user.UserService;
+
 public class TestFormHandler implements HttpHandler {
 
     final String FORM_PAGE = "formtest.thtml";
     private Logger logger;
     private DisplayLogic displayLogic;
 
-    public TestFormHandler(Logger log, DisplayLogic dl) {
+    public TestFormHandler(Logger log, DisplayLogic dl, UserService userService) {
         logger = log;
         displayLogic = dl;
+        this.userService = userService;
     }
 
     @Override
@@ -29,11 +32,36 @@ public class TestFormHandler implements HttpHandler {
 
         Map<String, String> dataFromWebForm = displayLogic.parseResponse(exchange);
 
-        // if the web form contained a username, add it to the data model
-        if (dataFromWebForm.containsKey("username")) {
-            dataModel.put("username", dataFromWebForm.get("username"));
+        // // if the web form contained a username, add it to the data model
+        // if (dataFromWebForm.containsKey("username")) {
+        //     dataModel.put("username", dataFromWebForm.get("username"));
+        // }
+        // Extract values from the form
+        String username = dataFromWebForm.get("username");
+        String password = dataFromWebForm.get("password");
+
+        // If the form was submitted, attempt to log in
+        if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
+            logger.info("Login POST detected");
+            if (username != null && password != null) {
+                boolean loginSuccess = userService.loginUser(username, password);
+
+                if (loginSuccess) {
+                    dataModel.put("message", "Login successful!");
+                    addUserCookie(exchange, username);  // Optionally set a user cookie
+                } else {
+                    dataModel.put("message", "Login failed. Please check your credentials.");
+                }
+            }
+        } else {
+            dataModel.put("message", " ");
         }
 
+        // Ensure message is always set
+        if (!dataModel.containsKey("message")) {
+            dataModel.put("message", "");
+        }
+        
         // sw will hold the output of parsing the template
         StringWriter sw = new StringWriter();
 
