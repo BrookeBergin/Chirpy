@@ -19,7 +19,7 @@
             flex-direction: column;
             align-items: center;
             width: 50vw;              
-            height: 60vh;
+            height: 70vh;
             margin: auto;
             position: absolute;
             left: 25%;
@@ -122,11 +122,11 @@
         }
 
         .form-prompt{
-            flex: 30;
+            flex: 50;
         }
 
         .form-entry{
-            flex: 70;
+            flex: 50;
         }
 
         form-submit{
@@ -154,6 +154,10 @@
                             <input type="password" name="password" class="form-entry">
                         </div>
                         <div class="form-element">
+                            <p class="form-prompt">Confirm Password: </p>
+                            <input type="password" name="confirmPassword" class="form-entry">
+                        </div>
+                        <div class="form-element">
                             <p class="form-prompt">Date of birth: </p>
                             <input type="date" name="birthday" class="form-entry" style="color:rgba(45, 35, 66, 0.7);">
                         </div>
@@ -161,6 +165,9 @@
                             <input type="submit" value="Submit" class="button-style">
                         </div>
                     </form>
+                </div>
+                <div id="messageBox">
+                    <p>${message}</p>
                 </div>
                 <div id="oldUser">
                     <p id="prompt">already have an account?</p>
