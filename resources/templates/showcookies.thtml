@@ -26,8 +26,9 @@
             <#list cookievalues as value>
                 <li>${value}</li>
             </#list>
-        </ul>
-
-        
+        </ul>       
+        <p>
+            Return to <a href="/toppage/">start.</a>
+        </p>
     </body>
 </html>
