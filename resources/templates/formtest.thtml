@@ -145,7 +145,12 @@
     </style>
 
     <body>
-       
+       <#if errorMsg?has_content>
+            <p>${errorMsg}</p>
+        </#if>
+        <#if successMsg?has_content>
+            <p>${successMsg}</p>
+        </#if>
         <div id="container">
             <div id="upper-half">
                 <p class="tagline">login</p>
@@ -172,6 +177,6 @@
                 </div>
             </div>
         </div>
-       
+        
     </body>
 </html>
