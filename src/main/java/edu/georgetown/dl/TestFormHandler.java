@@ -33,13 +33,13 @@ public class TestFormHandler implements HttpHandler {
         Map<String, Object> dataModel = new HashMap<String, Object>();
 
 
-        Vector<String> usernameVector = new Vector<>();
+        // Vector<String> usernameVector = new Vector<>();
 
-        for (int i = 0; i < userService.getUsers().size(); i++){
-                usernameVector.add(userService.getUsers().get(i).getUsername());
-        }
+        // for (int i = 0; i < userService.getUsers().size(); i++){
+        //         usernameVector.add(userService.getUsers().get(i).getUsername());
+        // }
 
-        dataModel.put("usernames", usernameVector);
+        dataModel.put("usernames", "usernameVector");
 
         
         // sw will hold the output of parsing the template
