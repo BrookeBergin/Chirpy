@@ -21,7 +21,7 @@ Chirpy is a Twitter-like short-message web service where users (chirpers) can cr
 ### Chirping
 - **Submitting a Chirp**
   - Input: Short text message (chirp) with optional hashtags.
-  - Storage: Store chirp data in memory (`Vector<Chirp>` or similar).
+  - Additional; can add a picture to their chirp
 - **View Timeline**
   - Input: Logged-in user's follow list.
   - Output: Display chirps from followed users in chronological order.
@@ -37,7 +37,7 @@ Chirpy is a Twitter-like short-message web service where users (chirpers) can cr
 ## Class Design
 ### Data Access Objects (DAO)
 #### User
-```java
+
 class User {
     private String username;
     private String password;
@@ -49,14 +49,14 @@ class User {
         this.following = new Vector<>();
     }
     
-    public String getUsername() { return username; }
-    public String getPassword() { return password; }
-    public Vector<String> getFollowing() { return following; }
-    public void followUser(String username) { following.add(username); }
+    public String getUsername() 
+    public String getPassword()
+    public Vector<String> getFollowing() 
+    public void followUser(String username) 
 }
-```
+
 #### Chirp
-```java
+
 class Chirp {
     private String username;
     private String message;
@@ -72,43 +72,86 @@ class Chirp {
     public String getMessage() { return message; }
     public Date getTimestamp() { return timestamp; }
 }
-```
+
 
 ### Business Logic Layer (BLL)
 #### UserService
-```java
+
 class UserService {
-    private Map<String, User> users = new HashMap<>();
-    
-    public boolean registerUser(String username, String password) {
-        if (users.containsKey(username)) return false;
-        users.put(username, new User(username, password));
-        return true;
-    }
-    
-    public boolean authenticateUser(String username, String password) {
-        return users.containsKey(username) && users.get(username).getPassword().equals(password);
-    }
+    //Retrieve registered users
+    method getUsers()
+      return registeredUsers
+    end methid
+
+    // Register user without age verification
+    method registerUser(username, password)
+      for each user in registeredUsers
+        if user.getUsername() equals username then
+          log "registration failed: username is already taken"
+          return false
+        end if
+      end for
+
+      create newUser as Chirper(username, password)
+      add newUser to registeredUsers
+      log "user registered successfully"
+      return true
+    end method
+
+    //Register with age verification
+    method registerUser(username, password, age)
+      if age < 18 then
+        log "You must be 18+ to regsiter. Come back in (18 - age) years! "
+        return false
+      end if
+
+      if username is null or empty then
+        log "username cannot be empty."
+        return false
+      end if
+
+      for each user in registeredUsers
+        if user.getUsername() equals username then
+          log "username is already taken"
+          return false
+        end if 
+      end for
+
+      if password is null or empty then
+        log "password cannot be empty"
+        return false
+      end if
+
+      create newUser as chirper(username, password)
+      add newUser to registeredUsers
+      log "user registered successfully."
+      return true
+    end method
+
+    //login user
+    method loginUser(username, password)  
+      for each user in registeredUsers
+        if user.getUsername() equals username then
+          if user.checkpassword(password) then
+            log "login successful for user:  " + username
+            return true //login success
+          else
+            log "login failed due to incorrect password for " + username
+            return false //incorrect password
+          end if
+        else
+          log "login failed due to incorrect username"
+          return false
+        end if
+      end for
+      return false
+    end method
+end class
+
 }
-```
-#### ChirpService
-```java
-class ChirpService {
-    private List<Chirp> chirps = new ArrayList<>();
-    
-    public void postChirp(String username, String message) {
-        chirps.add(new Chirp(username, message));
-    }
-    
-    public List<Chirp> searchByUser(String username) {
-        return chirps.stream().filter(c -> c.getUsername().equals(username)).collect(Collectors.toList());
-    }
-    
-    public List<Chirp> searchByHashtag(String hashtag) {
-        return chirps.stream().filter(c -> c.getMessage().contains("#" + hashtag)).collect(Collectors.toList());
-    }
-}
-```
+
+
+
 
 ### Display Logic (DL)
 #### Handlers
@@ -124,36 +167,20 @@ class ChirpService {
 - **User Sessions**: Managed via authentication cookies.
 
 ## Cookies
-Chirpy will use session cookies for authentication. A cookie will store a unique session ID mapping to a logged-in user:
-```java
-class SessionManager {
-    private Map<String, String> sessionMap = new HashMap<>(); // sessionID -> username
-    
-    public String createSession(String username) {
-        String sessionId = UUID.randomUUID().toString();
-        sessionMap.put(sessionId, username);
-        return sessionId;
-    }
-    
-    public String getUserFromSession(String sessionId) {
-        return sessionMap.get(sessionId);
-    }
-}
-```
+Chirpy will use session cookies for authentication. A cookie will store a unique session ID mapping to a logged-in user. This class handles the HTTP requests, extracts cookies from the request and uses a template to format and display cookies in an HTML page. It returns the formatted HTML as an HTTP response. 
 
 ## Extra Feature
-For Chirpy 1.0, our group has chosen to check if the user regisering to become a chirper is above 18 or not. When registering an account, the user will be asked to enter their age and if they happen to be under 18, they will be prompted to exit. 
+For Chirpy, our group has chosen to check if the user regisering to become a chirper is above 18 or not. When registering an account, the user will be asked to enter their age and if they happen to be under 18, they will be given a message on how they will only be able to post pictures as their chirp when they are 18 and above. 
 
 
 
 ## Functionality of Chirpy:
 List and briefly describe the functionalities supported by Chirpy. 
-  This should include, for example:
 - adding a new user and setting its password
 - submitting a chirp
-- rendering a timeline
+- posting a picture along with your chirp
 - searching for chirps via hashtag
-- searching for chirps via chirper (i.e., searching for MicahSherr1's chirps)
+- searching for chirps via chirper 
 
 
 ## Classes that make up the DAO

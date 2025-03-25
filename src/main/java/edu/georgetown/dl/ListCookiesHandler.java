@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.io.StringWriter;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.logging.Logger;
 import com.sun.net.httpserver.HttpExchange;
@@ -15,6 +16,7 @@ public class ListCookiesHandler implements HttpHandler {
     final String COOKIELIST_PAGE = "showcookies.thtml";
     private Logger logger;
     private DisplayLogic displayLogic;
+
 
     public ListCookiesHandler(Logger log, DisplayLogic dl) {
         logger = log;

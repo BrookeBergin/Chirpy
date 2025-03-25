@@ -1,5 +1,6 @@
 package edu.georgetown.dl;
 
+import java.util.Vector;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
@@ -36,11 +37,11 @@ public class TestFormHandler implements HttpHandler {
         // dataModel will hold the data to be used in the template
         Map<String, Object> dataModel = new HashMap<String, Object>();
 
-        Map<String, String> dataFromWebForm = displayLogic.parseResponse(exchange);
 
-        // // if the web form contained a username, add it to the data model
-        // if (dataFromWebForm.containsKey("username")) {
-        //     dataModel.put("username", dataFromWebForm.get("username"));
+        // Vector<String> usernameVector = new Vector<>();
+
+        // for (int i = 0; i < userService.getUsers().size(); i++){
+        //         usernameVector.add(userService.getUsers().get(i).getUsername());
         // }
         // Extract values from the form
         String username = dataFromWebForm.get("username");
@@ -76,11 +77,6 @@ public class TestFormHandler implements HttpHandler {
 
         // set the type of content (in this case, we're sending back HTML)
         exchange.getResponseHeaders().set("Content-Type", "text/html");
-        
-        // if we have a username, set a cookie with the username.
-        if (dataFromWebForm.containsKey("username")) {
-            displayLogic.addCookie(exchange, "username", dataFromWebForm.get("username"));
-        }
 
         // send the HTTP headers
         exchange.sendResponseHeaders(200, (sw.getBuffer().length()));
