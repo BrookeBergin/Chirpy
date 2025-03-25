@@ -19,11 +19,16 @@ public class TestFormHandler implements HttpHandler {
     private DisplayLogic displayLogic;
     private UserService userService;
 
-    public TestFormHandler(Logger log, DisplayLogic dl, UserService userService) {
+    public TestFormHandler(Logger log, DisplayLogic dl) {
         logger = log;
         displayLogic = dl;
-        this.userService = userService;
     }
+
+    // public TestFormHandler(Logger log, DisplayLogic dl, UserService userService) {
+    //     logger = log;
+    //     displayLogic = dl;
+    //     this.userService = userService;
+    // }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
@@ -38,9 +43,31 @@ public class TestFormHandler implements HttpHandler {
         // for (int i = 0; i < userService.getUsers().size(); i++){
         //         usernameVector.add(userService.getUsers().get(i).getUsername());
         // }
+        // Extract values from the form
+        String username = dataFromWebForm.get("username");
+        String password = dataFromWebForm.get("password");
 
-        dataModel.put("usernames", "usernameVector");
+        // If the form was submitted, attempt to log in
+        if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
+            logger.info("Login POST detected");
+            if (username != null && password != null) {
+                boolean loginSuccess = userService.loginUser(username, password);
 
+                if (loginSuccess) {
+                    dataModel.put("message", "Login successful!");
+                    //addUserCookie(exchange, username);  // Optionally set a user cookie
+                } else {
+                    dataModel.put("message", "Login failed. Please check your credentials.");
+                }
+            }
+        } else {
+            dataModel.put("message", " ");
+        }
+
+        // Ensure message is always set
+        if (!dataModel.containsKey("message")) {
+            dataModel.put("message", "");
+        }
         
         // sw will hold the output of parsing the template
         StringWriter sw = new StringWriter();

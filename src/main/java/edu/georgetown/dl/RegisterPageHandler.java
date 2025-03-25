@@ -16,13 +16,19 @@ public class RegisterPageHandler implements HttpHandler {
     final String FORM_PAGE = "registerPage.thtml";
     private Logger logger;
     private DisplayLogic displayLogic;
-    private UserService userService;
+    // private UserService userService;
 
-    public RegisterPageHandler(Logger log, DisplayLogic dl, UserService userService) {
+    // public RegisterPageHandler(Logger log, DisplayLogic dl, UserService userService) {
+    //     logger = log;
+    //     displayLogic = dl;
+    //     this.userService = userService;  // ChatGPT told me to do this
+
+    // }
+
+
+    public RegisterPageHandler(Logger log, DisplayLogic dl) {
         logger = log;
         displayLogic = dl;
-        this.userService = userService;  // ChatGPT told me to do this
-
     }
 
     @Override
@@ -55,22 +61,23 @@ public class RegisterPageHandler implements HttpHandler {
         //     }
         // }
 
-        if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
-            logger.info("Register post detected");
-            if (username != null && password != null && confirmPass != null) {
-                boolean registrationSuccess = userService.registerUser(username, password, confirmPass, age);
-                if (registrationSuccess) {
-                    dataModel.put("message", "Registration successful!");
-                    addUserCookie(exchange, username);
-                } else {
-                    dataModel.put("message", "Registration failed. Please check your logs.");
-                }
-            }
-        }
-        else{
-            dataModel.put("message", " ");
+        // commented out 3/25 to get it to run
+        // if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
+        //     logger.info("Register post detected");
+        //     if (username != null && password != null && confirmPass != null) {
+        //         boolean registrationSuccess = userService.registerUser(username, password, confirmPass, age);
+        //         if (registrationSuccess) {
+        //             dataModel.put("message", "Registration successful!");
+        //             addUserCookie(exchange, username);
+        //         } else {
+        //             dataModel.put("message", "Registration failed. Please check your logs.");
+        //         }
+        //     }
+        // }
+        // else{
+        //     dataModel.put("message", " ");
 
-        }
+        // }
 
 
         // Ensure message is always set
