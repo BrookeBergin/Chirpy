@@ -16,12 +16,18 @@ public class TestFormHandler implements HttpHandler {
     final String FORM_PAGE = "formtest.thtml";
     private Logger logger;
     private DisplayLogic displayLogic;
+    private UserService userService;
 
-    public TestFormHandler(Logger log, DisplayLogic dl, UserService userService) {
+    public TestFormHandler(Logger log, DisplayLogic dl) {
         logger = log;
         displayLogic = dl;
-        this.userService = userService;
     }
+
+    // public TestFormHandler(Logger log, DisplayLogic dl, UserService userService) {
+    //     logger = log;
+    //     displayLogic = dl;
+    //     this.userService = userService;
+    // }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
@@ -48,7 +54,7 @@ public class TestFormHandler implements HttpHandler {
 
                 if (loginSuccess) {
                     dataModel.put("message", "Login successful!");
-                    addUserCookie(exchange, username);  // Optionally set a user cookie
+                    //addUserCookie(exchange, username);  // Optionally set a user cookie
                 } else {
                     dataModel.put("message", "Login failed. Please check your credentials.");
                 }
