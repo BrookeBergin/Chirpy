@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Chirpy",
+            "request": "launch",
+            "mainClass": "edu.georgetown.Chirpy",
+            "projectName": "251-2-chirpy2-cosc-2020-25-1-chirpy-group-1_cf0ae65"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
@@ -14,7 +21,7 @@
             "type": "java",
             "name": "WebService",
             "request": "launch",
-            "mainClass": "edu.georgetown.WebService",
+            "mainClass": "edu.georgetown.WebService"
         }
     ]
 }

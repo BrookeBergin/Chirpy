@@ -44,8 +44,8 @@ public class TestFormHandler implements HttpHandler {
         //         usernameVector.add(userService.getUsers().get(i).getUsername());
         // }
         // Extract values from the form
-        String username = dataFromWebForm.get("username");
-        String password = dataFromWebForm.get("password");
+       String username = "test";
+       String password = "password";
 
         // If the form was submitted, attempt to log in
         if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
