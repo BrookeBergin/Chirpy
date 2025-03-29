@@ -19,16 +19,16 @@ public class TestFormHandler implements HttpHandler {
     private DisplayLogic displayLogic;
     private UserService userService;
 
-    public TestFormHandler(Logger log, DisplayLogic dl) {
-        logger = log;
-        displayLogic = dl;
-    }
-
-    // public TestFormHandler(Logger log, DisplayLogic dl, UserService userService) {
+    // public TestFormHandler(Logger log, DisplayLogic dl) {
     //     logger = log;
     //     displayLogic = dl;
-    //     this.userService = userService;
     // }
+
+    public TestFormHandler(Logger log, DisplayLogic dl, UserService userService) {
+        logger = log;
+        displayLogic = dl;
+        this.userService = userService;
+    }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {

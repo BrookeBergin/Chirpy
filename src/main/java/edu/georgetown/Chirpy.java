@@ -84,10 +84,10 @@ public class Chirpy {
 
             // each of these "contexts" below indicates a URL path that will be handled by
             // the service. The top-level path is "/", and that should be listed last.
-            server.createContext("/formtest/", new TestFormHandler(logger, displayLogic));
-            server.createContext("/registerPage/", new RegisterPageHandler(logger, displayLogic));
+            server.createContext("/formtest/", new TestFormHandler(logger, displayLogic, userService));
+            server.createContext("/registerPage/", new RegisterPageHandler(logger, displayLogic, userService));
             server.createContext("/listcookies/", new ListCookiesHandler(logger, displayLogic));
-            server.createContext("/feedPage/", new FeedHandler(logger, displayLogic));
+            server.createContext("/feedPage/", new FeedHandler(logger, displayLogic, userService));
             server.createContext("/", new DefaultPageHandler(logger, displayLogic));
             // you will need to add to the above list to add new functionality to the web
             // service.  Just make sure that the handler for "/" is listed last.

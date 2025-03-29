@@ -130,9 +130,7 @@
             flex: 70;
         }
 
-        form-submit{
-
-        }
+        
 
         #newUser{
             display: flex;

@@ -19,16 +19,16 @@ public class FeedHandler implements HttpHandler {
     private DisplayLogic displayLogic;
     private UserService userService;
 
-    public FeedHandler(Logger log, DisplayLogic dl) {
-        logger = log;
-        displayLogic = dl;
-    }
-
-    // public FeedHandler(Logger log, DisplayLogic dl, UserService userService) {
+    // public FeedHandler(Logger log, DisplayLogic dl) {
     //     logger = log;
     //     displayLogic = dl;
-    //     this.userService = userService;
     // }
+
+    public FeedHandler(Logger log, DisplayLogic dl, UserService userService) {
+        logger = log;
+        displayLogic = dl;
+        this.userService = userService;
+    }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
