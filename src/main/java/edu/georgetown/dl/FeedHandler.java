@@ -12,19 +12,19 @@ import com.sun.net.httpserver.HttpHandler;
 
 import edu.georgetown.bll.user.UserService;
 
-public class TestFormHandler implements HttpHandler {
+public class FeedHandler implements HttpHandler {
 
-    final String FORM_PAGE = "formtest.thtml";
+    final String FORM_PAGE = "feedPage.thtml";
     private Logger logger;
     private DisplayLogic displayLogic;
     private UserService userService;
 
-    // public TestFormHandler(Logger log, DisplayLogic dl) {
+    // public FeedHandler(Logger log, DisplayLogic dl) {
     //     logger = log;
     //     displayLogic = dl;
     // }
 
-    public TestFormHandler(Logger log, DisplayLogic dl, UserService userService) {
+    public FeedHandler(Logger log, DisplayLogic dl, UserService userService) {
         logger = log;
         displayLogic = dl;
         this.userService = userService;
@@ -32,7 +32,7 @@ public class TestFormHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        logger.info("TestFormHandler called");
+        logger.info("FeedHandler called");
 
         // dataModel will hold the data to be used in the template
         Map<String, Object> dataModel = new HashMap<String, Object>();

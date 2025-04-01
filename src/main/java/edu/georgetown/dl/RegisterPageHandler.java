@@ -16,20 +16,20 @@ public class RegisterPageHandler implements HttpHandler {
     final String FORM_PAGE = "registerPage.thtml";
     private Logger logger;
     private DisplayLogic displayLogic;
-    // private UserService userService;
+    private UserService userService;
 
-    // public RegisterPageHandler(Logger log, DisplayLogic dl, UserService userService) {
-    //     logger = log;
-    //     displayLogic = dl;
-    //     this.userService = userService;  // ChatGPT told me to do this
-
-    // }
-
-
-    public RegisterPageHandler(Logger log, DisplayLogic dl) {
+    public RegisterPageHandler(Logger log, DisplayLogic dl, UserService userService) {
         logger = log;
         displayLogic = dl;
+        this.userService = userService;  // ChatGPT told me to do this
+
     }
+
+
+    // public RegisterPageHandler(Logger log, DisplayLogic dl) {
+    //     logger = log;
+    //     displayLogic = dl;
+    // }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {

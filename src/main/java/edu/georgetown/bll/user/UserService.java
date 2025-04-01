@@ -58,7 +58,7 @@ public boolean registerUser(String username, String password){
             return false;
         }
 
-        if(password != confirmPass){
+        if(!(password.equals(confirmPass))){
             logger.warning("Passwords do not match.");
             return false;
         }
