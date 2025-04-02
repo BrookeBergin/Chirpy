@@ -159,4 +159,22 @@ public class DisplayLogic {
         }
         return cookies;
     }
+
+    /**
+     * Removing a cookie by setting its max-age to 0
+     * 
+     * @param exchange the HttpExchange object
+     * @param var the name of the cookie to remove
+     * @return true if the cookie header is set successfully
+     **/
+    public boolean removeCookie(HttpExchange exchange, String var){
+        try{
+            exchange.getResponseHeaders().set("Set-Cookie", var + "-; Max-Age=-; path=/");
+        }
+        catch (Exception e){
+            logger.warning("Error removing cookie: " + e.getMessage());
+            return false;
+        }
+        return true;
+    }
 }

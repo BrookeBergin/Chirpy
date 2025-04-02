@@ -37,34 +37,49 @@ public class TestFormHandler implements HttpHandler {
         // dataModel will hold the data to be used in the template
         Map<String, Object> dataModel = new HashMap<String, Object>();
 
-
-        // Vector<String> usernameVector = new Vector<>();
-
-        // for (int i = 0; i < userService.getUsers().size(); i++){
-        //         usernameVector.add(userService.getUsers().get(i).getUsername());
-        // }
-        // Extract values from the form
-        // String username = dataFromWebForm.get("username");
-        // String password = dataFromWebForm.get("password");
-        String username = "test";
-        String password = "password";
+        //String username = "test";
+        //String password = "password";
 
         // If the form was submitted, attempt to log in
         if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
             logger.info("Login POST detected");
+
+            //parse the form data from the request body
+            Map<String,String> formData = displayLogic.parseResponse(exchange);
+            String username = formData.get("username");
+            String password = formData.get("password");
+
             if (username != null && password != null) {
                 boolean loginSuccess = userService.loginUser(username, password);
 
                 if (loginSuccess) {
                     dataModel.put("message", "Login successful!");
                     //addUserCookie(exchange, username);  // Optionally set a user cookie
+                    //Set a cookie and then redirect to the FeedHandler page
+                    displayLogic.addCookie(exchange, "username", username);
+                    exchange.getResponseHeaders().set("Location", "/feedPage/");
+                    exchange.sendResponseHeaders(302, -1);
+                    return;
+                    
                 } else {
                     dataModel.put("message", "Login failed. Please check your credentials.");
                 }
             }
+            else{
+                dataModel.put("errorMsg", "Missing username or password.");
+            }
         } else {
             dataModel.put("message", " ");
         }
+        Map<String, String> cookies = displayLogic.getCookies(exchange);
+        String user = cookies.get("username");
+        if(user==null){
+            dataModel.put("message", "Not logged in. Please log in first.");
+        }
+        else{
+            dataModel.put("message", "Welcome to your feed, " + user + "!");
+        }
+
 
         // Ensure message is always set
         if (!dataModel.containsKey("message")) {

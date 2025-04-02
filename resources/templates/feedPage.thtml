@@ -146,6 +146,7 @@
         <div id="container">
             <div id="upper-half">
                 <p class="tagline">User Home Page - Login Successful</p>
+                <h1>${message}</h1>
             </div>
             <!--<div id="lower-half">
                 <div id="form-div">
