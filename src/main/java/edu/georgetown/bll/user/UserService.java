@@ -79,9 +79,6 @@ public boolean registerUser(String username, String password){
                 logger.warning("Login failed due to incorrect password for " + username);
                 return false; //incorrect password entered
             }
-        } else{
-                logger.warning("Login failed due to incorrect username ");
-                return false;
         }
       }
       logger.warning("Login failed: username not found");

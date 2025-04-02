@@ -71,6 +71,7 @@ public class Chirpy {
             logger.warning("failed to initialize display logic: " + e.getMessage());
             System.exit(1);
         }
+        userService = new UserService(logger);
         
         logger.info("Starting chirpy web service");
 
@@ -123,7 +124,6 @@ public class Chirpy {
 
         Chirpy ws = new Chirpy();
         //Initialize UserService so that it can be passed to handlers
-        ws.userService = new UserService(ws.logger);
         ws.startService();
         
     }
