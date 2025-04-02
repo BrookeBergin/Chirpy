@@ -22,11 +22,15 @@
         </ul>
         <br>
         <h2>Cookie values</h2>
-        <ul>
-            <#list cookievalues as value>
-                <li>${value}</li>
-            </#list>
-        </ul>       
+        <#if allUsernames?? && allUsernames?size != 0>
+            <ul>
+                <#list allUsernames as u>
+                    <li>${u}</li>
+                </#list>
+            </ul>
+        <#else>
+            <p>No usernames seen yet.</p>  
+        </#if>
         <p>
             Return to <a href="/toppage/">start.</a>
         </p>
