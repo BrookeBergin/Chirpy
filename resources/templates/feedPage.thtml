@@ -148,7 +148,15 @@
                 <p class="tagline">User Home Page - Login Successful</p>
                 <h1>${message}</h1>
             </div>
-            <!--<div id="lower-half">
+
+            <div id="search-bar">
+                <form method="GET" action="/feedPage/">
+                    <input type="text" name="searchTerm" placeholder="Search by username or #hashtag">
+                    <input type="submit" value="Search">
+                </form>
+            </div>
+
+            <div id="lower-half">
                 <!-- Form to post a new chirp -->
                 <div id="chirp-form">
                     <form method="post" action="/feedPage/">
@@ -156,13 +164,17 @@
                         <input type="submit" value="Post Chirp">
                     </form>
                 </div>
-                <!-- Timeline display -->
                 <div id="chirp-timeline">
-                    <h2>Timeline</h2>
+                    <#if searchTerm??>
+                        <h2>Search results for: ${searchTerm}</h2>
+                    <#else>
+                        <h2>Timeline</h2>
+                    </#if>
+
                     <#if chirps?has_content>
                         <#list chirps as chirp>
                             <div class="chirp">
-                                <p><strong>${chirp.username}</strong> at ${chirp.timestamp?string("MM/dd?yyyy HH:mm:ss")}</p>
+                                <p><strong>${chirp.username}</strong> at ${chirp.timestamp?string("MM/dd/yyyy HH:mm:ss")}</p>
                                 <p>${chirp.message}</p>
                                 <hr>
                             </div>

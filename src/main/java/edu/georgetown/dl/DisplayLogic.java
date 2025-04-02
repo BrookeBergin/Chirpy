@@ -112,6 +112,31 @@ public class DisplayLogic {
         return myMap;
     }
 
+
+    // For Search Function
+    public Map<String, String> parseRequest(HttpExchange exchange) {
+        Map<String, String> result = new HashMap<>();
+        String query = exchange.getRequestURI().getRawQuery(); // e.g., "searchTerm=%23Georgetown"
+    
+        if (query != null) {
+            String[] pairs = query.split("&");
+            for (String pair : pairs) {
+                String[] parts = pair.split("=", 2);
+                if (parts.length == 2) {
+                    try {
+                        result.put(
+                            URLDecoder.decode(parts[0], "UTF-8"),
+                            URLDecoder.decode(parts[1], "UTF-8")
+                        );
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace(); // Shouldn't happen with UTF-8
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
     /**
      * Adds a cookie to the response.
      * 
