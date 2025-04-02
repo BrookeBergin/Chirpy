@@ -62,22 +62,22 @@ public class RegisterPageHandler implements HttpHandler {
         // }
 
         // commented out 3/25 to get it to run
-        // if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
-        //     logger.info("Register post detected");
-        //     if (username != null && password != null && confirmPass != null) {
-        //         boolean registrationSuccess = userService.registerUser(username, password, confirmPass, age);
-        //         if (registrationSuccess) {
-        //             dataModel.put("message", "Registration successful!");
-        //             addUserCookie(exchange, username);
-        //         } else {
-        //             dataModel.put("message", "Registration failed. Please check your logs.");
-        //         }
-        //     }
-        // }
-        // else{
-        //     dataModel.put("message", " ");
+        if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
+            logger.info("Register post detected");
+            if (username != null && password != null && confirmPass != null) {
+                boolean registrationSuccess = userService.registerUser(username, password, confirmPass, age);
+                if (registrationSuccess) {
+                    dataModel.put("message", "Registration successful!");
+                    addUserCookie(exchange, username);
+                } else {
+                    dataModel.put("message", "Registration failed. Please check your logs.");
+                 }
+            }
+        }
+        else{
+            dataModel.put("message", " ");
 
-        // }
+        }
 
 
         // Ensure message is always set

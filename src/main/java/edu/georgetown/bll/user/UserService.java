@@ -84,6 +84,7 @@ public boolean registerUser(String username, String password){
                 return false;
         }
       }
+      logger.warning("Login failed: username not found");
       return false;
     }
     // methods you'll probably want to add:

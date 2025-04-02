@@ -21,6 +21,8 @@ import java.util.logging.SimpleFormatter;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpExchange;
+
+import edu.georgetown.bll.ChirpService;
 import edu.georgetown.bll.user.UserService;
 import edu.georgetown.dl.DefaultPageHandler;
 import edu.georgetown.dl.DisplayLogic;
@@ -28,6 +30,7 @@ import edu.georgetown.dl.ListCookiesHandler;
 import edu.georgetown.dl.RegisterPageHandler;
 import edu.georgetown.dl.FeedHandler;
 import edu.georgetown.dl.TestFormHandler;
+import edu.georgetown.dl.LogoutHandler;
 
 public class Chirpy {
 
@@ -84,10 +87,13 @@ public class Chirpy {
 
             // each of these "contexts" below indicates a URL path that will be handled by
             // the service. The top-level path is "/", and that should be listed last.
-            server.createContext("/formtest/", new TestFormHandler(logger, displayLogic));
-            server.createContext("/registerPage/", new RegisterPageHandler(logger, displayLogic));
+            server.createContext("/formtest/", new TestFormHandler(logger, displayLogic, userService));
+            server.createContext("/registerPage/", new RegisterPageHandler(logger, displayLogic, userService));
             server.createContext("/listcookies/", new ListCookiesHandler(logger, displayLogic));
-            server.createContext("/feedPage/", new FeedHandler(logger, displayLogic, userService));
+            //Create a new ChirpService Instance and pass it tp FeedHandler
+            ChirpService chirpService = new ChirpService();
+            server.createContext("/feedPage/", new FeedHandler(logger, displayLogic, userService, chirpService));
+            server.createContext("/logout/", new LogoutHandler(logger, displayLogic));
             server.createContext("/", new DefaultPageHandler(logger, displayLogic));
             // you will need to add to the above list to add new functionality to the web
             // service.  Just make sure that the handler for "/" is listed last.
@@ -107,13 +113,19 @@ public class Chirpy {
 
     public static void main(String[] args) {
 
-        Chirpy ws = new Chirpy();
+        //Chirpy ws = new Chirpy();
 
         // let's start up the various business logic services
         //UserService userService = new UserService(ws.logger);
 
         // finally, let's begin the web service so that we can start handling requests
+        //ws.startService();
+
+        Chirpy ws = new Chirpy();
+        //Initialize UserService so that it can be passed to handlers
+        ws.userService = new UserService(ws.logger);
         ws.startService();
+        
     }
 
 }
