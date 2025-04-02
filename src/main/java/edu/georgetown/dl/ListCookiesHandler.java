@@ -17,7 +17,6 @@ public class ListCookiesHandler implements HttpHandler {
     private Logger logger;
     private DisplayLogic displayLogic;
 
-
     public ListCookiesHandler(Logger log, DisplayLogic dl) {
         logger = log;
         displayLogic = dl;
@@ -35,6 +34,7 @@ public class ListCookiesHandler implements HttpHandler {
             Map<String, String> cookies = displayLogic.getCookies(exchange);
     
             if (cookies != null) {
+                
                 dataModel.put("cookienames", cookies.keySet());
                 dataModel.put("cookievalues", cookies.values());
             } else {

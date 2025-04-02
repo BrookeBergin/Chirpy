@@ -41,4 +41,26 @@ public class ChirpService {
             return userChirps;
     }
 
+
+    // SEARCH FUNCTION 
+    // Search chirps by username (alias for getChirpsForUser)
+    public List<Chirp> searchByUsername(String username) {
+        return getChirpsForUser(username);
+    }
+
+    // Search chirps containing a given hashtag (case-insensitive)
+    public List<Chirp> searchByHashtag(String hashtag) {
+        List<Chirp> result = new ArrayList<>();
+        String tag = "#" + hashtag.toLowerCase();
+
+        for (Chirp chirp : chirps) {
+            if (chirp.getMessage().toLowerCase().contains(tag)) {
+                result.add(chirp);
+            }
+        }
+
+        result.sort(Comparator.comparing(Chirp::getTimestamp).reversed());
+        return result;
+    }
+
 }

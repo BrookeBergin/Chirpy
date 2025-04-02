@@ -35,6 +35,8 @@ public class DefaultPageHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        logger.info(">>>> FeedHandler.handle() called for path: " + exchange.getRequestURI());
+
         logger.info("DefaultPageHandler called");
 
         // sw will hold the output of parsing the template

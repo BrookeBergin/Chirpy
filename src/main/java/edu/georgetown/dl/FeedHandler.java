@@ -5,12 +5,14 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import edu.georgetown.bll.ChirpService;
 import edu.georgetown.bll.user.UserService;
+import edu.georgetown.dao.Chirp;
 
 public class FeedHandler implements HttpHandler {
 
@@ -38,7 +40,7 @@ public class FeedHandler implements HttpHandler {
 
         // dataModel will hold the data to be used in the template
         Map<String, Object> dataModel = new HashMap<String, Object>();
-
+        
 
         // Vector<String> usernameVector = new Vector<>();
 
@@ -75,26 +77,51 @@ public class FeedHandler implements HttpHandler {
         String username = cookies.get("username");
         if(username == null){
             dataModel.put("message", "No user logged in. Please log in first.");
+            dataModel.put("chirps", List.of());
         }
         else{
             dataModel.put("message", "Welcome to your feed, " + username + "!");
             //If a POST request is recieved, assume a new chirp is being submitted
-            Map<String, String> formData = displayLogic.parseResponse(exchange);
-            String chirpMessage = formData.get("chirpMessage");
-            if(chirpMessage != null && !chirpMessage.trim().isEmpty()){
-                chirpService.addChirp(username, chirpMessage);
-                //Redirect the get the feed page after posting the chirp
-                exchange.getResponseHeaders().set("Location", "/feedPage/");
-                exchange.sendResponseHeaders(302, -1);
-                return;
+            if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
+                // Handle chirp submission
+                Map<String, String> formData = displayLogic.parseResponse(exchange);
+                String chirpMessage = formData.get("chirpMessage");
+    
+                if (chirpMessage != null && !chirpMessage.trim().isEmpty()) {
+                    chirpService.addChirp(username, chirpMessage);
+                    exchange.getResponseHeaders().set("Location", "/feedPage/");
+                    exchange.sendResponseHeaders(302, -1);
+                    return;
+                } else {
+                    logger.info("POST received with empty chirpMessage; treating as GET.");
+                }
             }
-            else{
-                //If the POST request has an empty chirpMessage, log it and fall thorugh to render the page.
-                logger.info("POST recieved with empty chirpMessage; treating as GET.");
+
+         // Handle search via GET
+            Map<String, String> queryParams = displayLogic.parseRequest(exchange);
+            String searchTerm = queryParams.get("searchTerm");
+
+            logger.info("QUERY PARAMS: " + queryParams);
+            logger.info("SEARCH TERM: " + searchTerm);
+            
+            if (searchTerm != null && !searchTerm.trim().isEmpty()) {
+                logger.info("Search request: " + searchTerm);
+                List<Chirp> searchResults;
+
+                if (searchTerm.startsWith("#")) {
+                    searchResults = chirpService.searchByHashtag(searchTerm.substring(1));
+                } else {
+                    searchResults = chirpService.searchByUsername(searchTerm);
+                }
+
+                dataModel.put("chirps", searchResults);
+                dataModel.put("searchTerm", searchTerm);
+            } else {
+                // Default feed
+                dataModel.put("chirps", chirpService.getAllChirps());
             }
         }
-        //Add the list of chirps to the data model for display
-        dataModel.put("chirps", chirpService.getAllChirps());
+
 
         // Ensure message is always set
         if (!dataModel.containsKey("message")) {
@@ -118,4 +145,6 @@ public class FeedHandler implements HttpHandler {
         os.write(sw.toString().getBytes());
         os.close();
     }
+    
 }
+
