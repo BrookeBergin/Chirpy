@@ -62,14 +62,14 @@ public class TestFormHandler implements HttpHandler {
                     return;
                     
                 } else {
-                    dataModel.put("message", "Login failed. Please check your credentials.");
+                    dataModel.put("errorMsg", "Login failed. Please check your credentials.");
                 }
             }
             else{
                 dataModel.put("errorMsg", "Missing username or password.");
             }
         } else {
-            dataModel.put("message", " ");
+            dataModel.put("errorMsg", " ");
         }
         Map<String, String> cookies = displayLogic.getCookies(exchange);
         String user = cookies.get("username");
@@ -85,7 +85,7 @@ public class TestFormHandler implements HttpHandler {
         if (!dataModel.containsKey("message")) {
             dataModel.put("message", "");
         }
-        
+        logger.info("message is `" + dataModel.get("message") + "`");
         // sw will hold the output of parsing the template
         StringWriter sw = new StringWriter();
 
