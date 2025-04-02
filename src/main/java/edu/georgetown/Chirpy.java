@@ -21,6 +21,8 @@ import java.util.logging.SimpleFormatter;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpExchange;
+
+import edu.georgetown.bll.ChirpService;
 import edu.georgetown.bll.user.UserService;
 import edu.georgetown.dl.DefaultPageHandler;
 import edu.georgetown.dl.DisplayLogic;
@@ -88,7 +90,9 @@ public class Chirpy {
             server.createContext("/formtest/", new TestFormHandler(logger, displayLogic, userService));
             server.createContext("/registerPage/", new RegisterPageHandler(logger, displayLogic, userService));
             server.createContext("/listcookies/", new ListCookiesHandler(logger, displayLogic));
-            server.createContext("/feedPage/", new FeedHandler(logger, displayLogic, userService));
+            //Create a new ChirpService Instance and pass it tp FeedHandler
+            ChirpService chirpService = new ChirpService();
+            server.createContext("/feedPage/", new FeedHandler(logger, displayLogic, userService, chirpService));
             server.createContext("/logout/", new LogoutHandler(logger, displayLogic));
             server.createContext("/", new DefaultPageHandler(logger, displayLogic));
             // you will need to add to the above list to add new functionality to the web

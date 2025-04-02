@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-
+import edu.georgetown.bll.ChirpService;
 import edu.georgetown.bll.user.UserService;
 
 public class FeedHandler implements HttpHandler {
@@ -18,16 +18,18 @@ public class FeedHandler implements HttpHandler {
     private Logger logger;
     private DisplayLogic displayLogic;
     private UserService userService;
+    private ChirpService chirpService;
 
     // public FeedHandler(Logger log, DisplayLogic dl) {
     //     logger = log;
     //     displayLogic = dl;
     // }
 
-    public FeedHandler(Logger log, DisplayLogic dl, UserService userService) {
+    public FeedHandler(Logger log, DisplayLogic dl, UserService userService, ChirpService chirpService) {
         logger = log;
         displayLogic = dl;
         this.userService = userService;
+        this.chirpService = chirpService;
     }
 
     @Override
@@ -46,10 +48,12 @@ public class FeedHandler implements HttpHandler {
         // Extract values from the form
         // String username = dataFromWebForm.get("username");
         // String password = dataFromWebForm.get("password");
-        String username = "test";
-        String password = "password";
 
-        // If the form was submitted, attempt to log in
+
+        //String username = "test";
+        //String password = "password";
+
+        /* If the form was submitted, attempt to log in
         if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
             logger.info("Login POST detected");
             if (username != null && password != null) {
@@ -65,6 +69,32 @@ public class FeedHandler implements HttpHandler {
         } else {
             dataModel.put("message", " ");
         }
+        */
+        //Retrieve the logged-in username from cookies
+        Map<String, String> cookies = displayLogic.getCookies(exchange);
+        String username = cookies.get("username");
+        if(username == null){
+            dataModel.put("message", "No user logged in. Please log in first.");
+        }
+        else{
+            dataModel.put("message", "Welcome to your feed, " + username + "!");
+            //If a POST request is recieved, assume a new chirp is being submitted
+            Map<String, String> formData = displayLogic.parseResponse(exchange);
+            String chirpMessage = formData.get("chirpMessage");
+            if(chirpMessage != null && !chirpMessage.trim().isEmpty()){
+                chirpService.addChirp(username, chirpMessage);
+                //Redirect the get the feed page after posting the chirp
+                exchange.getResponseHeaders().set("Location", "/feedPage/");
+                exchange.sendResponseHeaders(302, -1);
+                return;
+            }
+            else{
+                //If the POST request has an empty chirpMessage, log it and fall thorugh to render the page.
+                logger.info("POST recieved with empty chirpMessage; treating as GET.");
+            }
+        }
+        //Add the list of chirps to the data model for display
+        dataModel.put("chirps", chirpService.getAllChirps());
 
         // Ensure message is always set
         if (!dataModel.containsKey("message")) {
