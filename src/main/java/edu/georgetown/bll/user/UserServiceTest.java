@@ -17,6 +17,7 @@ public class UserServiceTest {
         //initializes the logger and UserService
         testLogger = Logger.getLogger(UserServiceTest.class.getName());
         userService = new UserService(testLogger);
+        
     }
 
     //Testing initial get user
