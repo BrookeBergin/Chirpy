@@ -23,18 +23,41 @@ public class UserServiceTest {
     //Testing initial get user
     @Test 
     void testGetUsersEmpty(){
-        
-    }
+        int userCount = userService.getUsers().size();
+        assertEquals(0, userCount, "There should be no users initially.");
+        assertNotNull(userService.getUsers(), "Users vector should not be null");    }
 
     //Add some users and test
     @Test 
     void testGetUsesWithUsers(){
+        userService.registerUser("hoya_saxa", "password123", "password123", 20);
+        userService.registerUser("saxa_hoya", "password456", "password456", 25);
+        
+        int userCount = userService.getUsers().size();
+
+        assertNotNull(userService.getUsers(), "Users vector should not be null");
+        assertEquals(2, userCount, "There should be 2 users after registration.");
+
+        boolean hoyaFound = false;
+        boolean saxaFound = false;
+        for(Chirper user : userService.getUsers()){
+            if(user.getUsername().equals("hoya_saxa")){
+                hoyaFound = true;
+            }
+            if(user.getUsername().equals("saxa_hoya")){
+                saxaFound = true;
+            }
+            
+        }
+        assertTrue(hoyaFound, "User 'hoya_saxa' is in the users vector");
+        assertTrue(saxaFound, "User 'saxa_hoya' is in the users vector");
 
     }
 
     //Test initial get usernames
     @Test 
     void testGetUsernamesEmpty(){
+        boolean usernameExists = userService.getUsers().stream().anyMatch(user->user.getUsername().equals("hoya_saxa"));
 
     }
 
