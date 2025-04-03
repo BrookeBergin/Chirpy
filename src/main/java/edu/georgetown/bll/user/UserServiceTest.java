@@ -20,6 +20,58 @@ public class UserServiceTest {
         
     }
 
+
+    @Test
+    void testRegisterUserValid(){
+        userService.getUsers().clear();
+
+        boolean result = userService.registerUser("hoya_saxa", "pass123", "pass123", 20);
+        assertTrue(result, "User should be registered successfully.");
+        
+        assertEquals(1, userService.getUsers().size(), "There should be one registered user.");
+        assertEquals("hoya_saxa", userService.getUsers().get(0).getUsername(), "The registered user's username should be 'hoya_saxa'.");
+    }
+
+    @Test
+    void testRegisterUserDuplicateUsername(){
+        userService.registerUser("hoya_saxa", "pass123", "pass123", 20);
+        boolean result = userService.registerUser("hoya_saxa", "pass456", "pass456", 19);
+        
+        assertFalse(result, "Registration should fail when username is already taken.");
+    }
+
+    @Test
+    void testRegisterUserUnderage(){
+        boolean result = userService.registerUser("hoya_saxa", "pass123", "pass123", 12);
+        assertFalse(result, "User registration should fail for underage users.");
+    }
+
+    @Test
+    void testRegisterUserEmptyName(){
+        boolean result = userService.registerUser("", "pass123", "pass123", 20);
+        assertFalse(result, "User registration should fail with empty username.");
+    }
+
+    @Test
+    void testLoginUserValid(){
+        userService.registerUser("hoya_saxa", "pass123", "pass123", 20);
+        boolean result = userService.loginUser("hoya_saxa", "pass123");
+        assertTrue(result, "Login should be successful with correct credentials.");
+    }
+
+    @Test
+    void testLoginUserInvalidPassword(){
+        userService.registerUser("hoya_saxa", "pass123", "pass123", 20);
+        boolean result = userService.loginUser("hoya_saxa", "wrongpass");
+        assertFalse(result, "Login should fail with incorrect password.");
+    }
+
+    @Test
+    void testLoginUserNotRegistered(){
+        boolean result = userService.loginUser("na", "pass123");
+        assertFalse(result, "Login should fail for a non-registered user.");
+    }
+    /* 
     //Testing initial get user
     @Test 
     void testGetUsersEmpty(){
@@ -79,7 +131,10 @@ public class UserServiceTest {
 
     @Test 
     void testRegisterUserDuplicate(){
-
+        userService.registerUser("hoya_saxa", "pass123", "pass123", 20);
+        boolean result = userService.registerUser("hoya_saxa", "pass456", "pass456", 19);
+        
+        assertFalse(result, "Registration should fail when username is already taken.");
     }
 
     @Test
@@ -107,5 +162,5 @@ public class UserServiceTest {
 
     }
 
-
+  */
 }
