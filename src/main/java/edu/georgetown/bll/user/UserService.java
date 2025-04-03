@@ -47,7 +47,7 @@ public boolean registerUser(String username, String password){
         }
         
         for(Chirper user : registeredUsers){
-            if(user.getUsername() == username){
+            if(user.getUsername().equals(username)){
                 logger.warning("Username has already been taken.");
                 return false;
             }
@@ -62,9 +62,9 @@ public boolean registerUser(String username, String password){
             logger.warning("Passwords do not match.");
             return false;
         }
+
         Chirper newUser = new Chirper(username, password);
         registeredUsers.add(newUser);
-
         logger.info("User registered successfully.");
         return true;
     }
