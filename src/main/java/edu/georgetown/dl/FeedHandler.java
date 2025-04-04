@@ -5,6 +5,7 @@ import com.sun.net.httpserver.HttpHandler;
 import edu.georgetown.bll.ChirpService;
 import edu.georgetown.bll.user.UserService;
 import edu.georgetown.dao.Chirp;
+import edu.georgetown.dao.Chirper;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -61,11 +62,28 @@ public class FeedHandler implements HttpHandler {
         String username = cookies.get("username");
 
         if (username == null) {
+            logger.info("USER IS NULL");
             dataModel.put("message", "No user logged in. Please log in first.");
             dataModel.put("chirps", List.of());
         } else {
+            dataModel.put("username", username);
+            logger.info("Username: " + username);
             dataModel.put("message", "Welcome to your feed, " + username + "!");
+            
+        
+        // follow action
+        Map<String, String> queryParams = displayLogic.parseRequest(exchange);
+        String followeeUsername = queryParams.get("follow");
 
+        if (followeeUsername != null) {
+            boolean success = userService.followUser(username, followeeUsername);
+            if (success) {
+                dataModel.put("message", "You followed " + followeeUsername + "!");
+            } else {
+                dataModel.put("message", "Failed to follow " + followeeUsername + ". They might not exist or you are already following them.");
+            }
+        }
+        // chirp posting
             if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
                 String boundary = getBoundary(exchange.getRequestHeaders().getFirst("Content-Type"));
                 if (boundary != null) {
@@ -119,7 +137,7 @@ public class FeedHandler implements HttpHandler {
             }
 
             // Handle search
-            Map<String, String> queryParams = displayLogic.parseRequest(exchange);
+            //Map<String, String> queryParams = displayLogic.parseRequest(exchange);
             String searchTerm = queryParams.get("searchTerm");
 
             if (searchTerm != null && !searchTerm.trim().isEmpty()) {
@@ -131,11 +149,18 @@ public class FeedHandler implements HttpHandler {
             } else {
                 dataModel.put("chirps", chirpService.getAllChirps());
             }
-        }
+
+            // Display the follow list (users the logged-in user follows)
+            Chirper user = userService.getUserByUsername(username);
+            if (user != null) {
+                dataModel.put("followings", user.getFollowing()); // Add followings to the dataModel
+            }
+            }
 
         if (!dataModel.containsKey("message")) {
             dataModel.put("message", "");
         }
+
 
         StringWriter sw = new StringWriter();
         displayLogic.parseTemplate(FORM_PAGE, dataModel, sw);

@@ -77,6 +77,8 @@ public class TestFormHandler implements HttpHandler {
         }
         else{
             dataModel.put("message", "Welcome to your feed, " + user + "!");
+            dataModel.put("username", user);
+            logger.info("added user to datamodel!!!!!!!!!!!");
         }
 
 
@@ -85,6 +87,7 @@ public class TestFormHandler implements HttpHandler {
             dataModel.put("message", "");
         }
         logger.info("message is `" + dataModel.get("message") + "`");
+        logger.info("user is `" + dataModel.get("username") + "`");
         // sw will hold the output of parsing the template
         StringWriter sw = new StringWriter();
 

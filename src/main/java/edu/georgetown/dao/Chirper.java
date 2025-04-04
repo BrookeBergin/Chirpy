@@ -18,6 +18,7 @@ public class Chirper implements Serializable {
 
     /** list of this chirper's followers */
     private Vector<Chirper> followers;
+    private Vector<Chirper> following = new Vector<>();
 
 
     public Chirper( String username, String password ) {
@@ -42,6 +43,28 @@ public class Chirper implements Serializable {
     public void addFollower( Chirper follower ) {
         /* followers vector in Chiper inserts follower */
         followers.add(follower);
+    }
+
+    public void follow(Chirper user) {
+        if (!following.contains(user)) {
+            following.add(user);
+            user.addFollower(this);
+        }
+    }
+    
+    public void unfollow(Chirper user) {
+        if (following.contains(user)) {
+            following.remove(user);
+            user.removeFollower(this);
+        }
+    }
+    
+    public void removeFollower(Chirper follower) {
+        followers.remove(follower);
+    }
+    
+    public Vector<Chirper> getFollowing() {
+        return this.following;
     }
 
     public Vector<Chirper> getFollowers() {
