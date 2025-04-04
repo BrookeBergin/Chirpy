@@ -84,9 +84,39 @@ public boolean registerUser(String username, String password){
       logger.warning("Login failed: username not found");
       return false;
     }
-    // methods you'll probably want to add:
-    //   registerUser
-    //   loginUser
-    //   etc.
+    
+    public boolean followUser(String followerUsername, String followeeUsername) {
+        Chirper follower = getUserByUsername(followerUsername);
+        Chirper followee = getUserByUsername(followeeUsername);
+    
+        if (follower != null && followee != null && !follower.getFollowing().contains(followee)) {
+            follower.follow(followee);
+            logger.info(followerUsername + " followed " + followeeUsername);
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean unfollowUser(String followerUsername, String followeeUsername) {
+        Chirper follower = getUserByUsername(followerUsername);
+        Chirper followee = getUserByUsername(followeeUsername);
+    
+        if (follower != null && followee != null && follower.getFollowing().contains(followee)) {
+            follower.unfollow(followee);
+            logger.info(followerUsername + " unfollowed " + followeeUsername);
+            return true;
+        }
+        return false;
+    }
+    
+    public Chirper getUserByUsername(String username) {
+        for (Chirper user : registeredUsers) {
+            if (user.getUsername().equals(username)) {
+                logger.info("getting user by username: " + user);
+                return user;
+            }
+        }
+        return null;
+    }
 
 }

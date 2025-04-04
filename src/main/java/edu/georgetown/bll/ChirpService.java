@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Vector;
+
+import edu.georgetown.bll.user.UserService;
 import edu.georgetown.dao.Chirp;
+import edu.georgetown.dao.Chirper;
 
 public class ChirpService {
     private List<Chirp> chirps = new ArrayList<>();
@@ -66,5 +70,27 @@ public class ChirpService {
         result.sort(Comparator.comparing(Chirp::getTimestamp).reversed());
         return result;
     }
+
+    // get chirps from people you follow
+    public List<Chirp> getFeedForUser(String username, UserService userService) {
+    Chirper user = userService.getUserByUsername(username);
+    if (user == null) return new ArrayList<>();
+
+    Vector<Chirper> following = user.getFollowing();
+    List<Chirp> feed = new ArrayList<>();
+
+    for (Chirp chirp : chirps) {
+        for (Chirper followee : following) {
+            if (chirp.getUsername().equals(followee.getUsername())) {
+                feed.add(chirp);
+                break;
+            }
+        }
+    }
+
+    feed.sort(Comparator.comparing(Chirp::getTimestamp).reversed());
+    return feed;
+}
+
 
 }
