@@ -174,9 +174,10 @@
                     <a href="/formtest/" class="button-style" style="width:100%;">Log in</a>
                 </div>
             </div>
-        </div>
-       <p>
+            <p>
             Return to <a href="/toppage/">start.</a>
-        </p>
+             </p>
+        </div>
+    
     </body>
 </html>
