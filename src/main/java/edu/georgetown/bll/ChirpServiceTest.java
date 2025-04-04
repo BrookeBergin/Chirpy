@@ -1,7 +1,6 @@
 package edu.georgetown.bll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import edu.georgetown.bll.user.UserService;
 import edu.georgetown.bll.user.UserServiceTest;
 import java.util.List;
 import java.util.logging.Logger;

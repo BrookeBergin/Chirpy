@@ -4,8 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.logging.Logger;
-import edu.georgetown.dao.Chirper;
-import freemarker.ext.beans.TemplateAccessible;
 
 public class UserServiceTest {
     private UserService userService;
