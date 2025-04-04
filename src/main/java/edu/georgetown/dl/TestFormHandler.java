@@ -1,6 +1,5 @@
 package edu.georgetown.dl;
 
-import java.util.Vector;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
