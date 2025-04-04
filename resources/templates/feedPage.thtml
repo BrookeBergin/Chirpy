@@ -16,14 +16,34 @@
             border: 1px solid grey;            
             box-shadow: 3px 5px lightgrey;
             display: flex;           
-            flex-direction: column;
-            align-items: center;
-            width: 50vw;              
-            height: 70vh;
+            flex-direction: row;
+            width: 98vw;  
+            min-height: 98vh;            
             margin: auto;
             position: absolute;
-            left: 25%;
-            top: 15%; 
+            left: 1vw;
+        }
+
+        #column1 {
+            width: 10%;
+            background: #f4f4f4;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        #column2{
+            width: 60%;
+            padding: 20px;
+            border-left: 1px solid #ddd;
+        }
+
+        #column3 {
+            width: 30%;
+            padding: 20px;
+            border-left: 1px solid #ddd;
+            align-content: center;
         }
 
         #upper-half {
@@ -42,12 +62,19 @@
             font-family:Georgia, 'Times New Roman', Times, serif;
             font-style: italic;
             font-stretch: expanded;
-            font-size: 3vw;
+            font-size: 1.7vw;
             font-weight: 900;
             text-shadow: 1px 1px rgb(134 134 134);
             margin-bottom: 30px;
             border-bottom: 0.5px solid rgba(45, 35, 66, 0.4);
             max-width: 70%;
+            padding-bottom: 30px;
+        }
+
+        #welcome{
+            font-size: 1.7vw;
+            margin-bottom: 30px;
+            border-bottom: 0.5px solid rgba(45, 35, 66, 0.4);
             padding-bottom: 30px;
         }
 
@@ -143,6 +170,44 @@
             display: flex;
             gap: 8px;
             justify-content: center;
+            border-bottom: 0.5px solid rgba(45, 35, 66, 0.4);
+            padding-bottom: 30px;
+        }
+
+        .chirp {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+
+        .chirp img {
+            max-width: 100%;
+            max-height: 300px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        .chirp-msg{
+            border-top: 0.5px solid rgba(45, 35, 66, 0.4);
+            padding-top: 10px;
+        }
+
+        .follow-button {
+            background-color: #fdd85d;
+            color: black;
+            border: none;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .follow-button:hover {
+            background-color: #e6c14c;
         }
 
         #chirp-form {
@@ -171,25 +236,17 @@
 
     <body>
         <div id="container">
-            <div id="upper-half">
-                <p class="tagline">User Home Page - Login Successful</p>
-                <h1>${message}</h1>
+            <div id="column1">
+                <p class="tagline">Chirpy</p>                
+                <a class="button-style" style="width: 100px;white-space: nowrap;margin-bottom: 10px;">Home</a>
+                <a href="/logout" class="button-style" style="width: 100px; white-space: nowrap;">Log out</a>
             </div>
-
-            <div id="search-bar">
-                <form method="GET" action="/feedPage/">
-                    <input type="text" name="searchTerm" placeholder="Search by username or #hashtag">
-                    <input type="submit" value="Search">
-                </form>
-            </div>
-
-            <div id="lower-half">
-                <!-- Form to post a new chirp -->
-                <div id="chirp-form">
-                    <form method="post" action="/feedPage/" enctype="multipart/form-data">
-                        <textarea name="chirpMessage" rows="3" cols="50" placeholder="What's on your mind?"></textarea><br>
-                        <input type="file" name="chirpImage"><br>
-                        <input type="submit" value="Post Chirp">
+            <div id="column2">
+                <h3 id="welcome">${message}</h3>
+                <div id="search-bar">
+                    <form method="GET" action="/feedPage/" style="width: 60%;">
+                        <input type="text" name="searchTerm"  style="width: 60%;" placeholder="Search by username or #hashtag">
+                        <input type="submit" value="Search">
                     </form>
                 </div>
                 <div id="chirp-timeline">
@@ -203,21 +260,29 @@
                         <#list chirps as chirp>
                             <div class="chirp">
                                 <p><strong>${chirp.username}</strong> at ${chirp.timestamp?string("MM/dd/yyyy HH:mm:ss")}</p>
-                                <p>${chirp.message}</p>
+                                <button class="follow-button">Follow</button>
+                                <p class="chirp-msg">${chirp.message}</p>
                                 <#if chirp.imageFilename?? && chirp.imageFilename?length != 0>
                                     <img src="/uploads/${chirp.imageFilename}" alt="Chirp Image" style="max-width: 300px; max-height: 300px; margin-top: 10px;">
                                 </#if>
-                                <hr>
                             </div>
                         </#list>
                     <#else>
                         <p>No chirps yet.</p>
                     </#if>
                 </div>
-                <div id= "username">
-                    <a href="/logout" class="button-style" style="width: 100px; white-space: nowrap;">Log out</a>
+            </div>
+            <div id="column3">
+                <h3>Post a Chirp</h3>
+                <div id="chirp-form">
+                    <form method="post" action="/feedPage/" enctype="multipart/form-data">
+                        <textarea name="chirpMessage" rows="3" cols="50" placeholder="What's on your mind?"></textarea><br>
+                        <input type="file" name="chirpImage"><br>
+                        <input type="submit" value="Post Chirp" class="button-style" style="width: 100px; white-space: nowrap; margin-top: 20px;">
+                    </form>
                 </div>
             </div>
+
         </div>
         
     </body>

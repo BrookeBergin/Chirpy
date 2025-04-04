@@ -19,7 +19,7 @@
             flex-direction: column;
             align-items: center;
             width: 50vw;              
-            height: 60vh;
+            height: fit-content;
             margin: auto;
             position: absolute;
             left: 25%;
@@ -59,7 +59,8 @@
             flex: 70;
             text-align: center;
             width: 100%;              
-            height: 60%; 
+            height: 100%; 
+            margin-bottom: 50px;
         }
 
         #buttons-div
