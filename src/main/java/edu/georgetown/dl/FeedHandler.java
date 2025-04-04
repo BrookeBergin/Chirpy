@@ -62,13 +62,16 @@ public class FeedHandler implements HttpHandler {
         String username = cookies.get("username");
 
         if (username == null) {
+            logger.info("USER IS NULL");
             dataModel.put("message", "No user logged in. Please log in first.");
             dataModel.put("chirps", List.of());
         } else {
-            dataModel.put("message", "Welcome to your feed, " + username + "!");
             dataModel.put("username", username);
+            logger.info("Username: " + username);
+            dataModel.put("message", "Welcome to your feed, " + username + "!");
+            
         
-            // follow action
+        // follow action
         Map<String, String> queryParams = displayLogic.parseRequest(exchange);
         String followeeUsername = queryParams.get("follow");
 
@@ -157,6 +160,7 @@ public class FeedHandler implements HttpHandler {
         if (!dataModel.containsKey("message")) {
             dataModel.put("message", "");
         }
+
 
         StringWriter sw = new StringWriter();
         displayLogic.parseTemplate(FORM_PAGE, dataModel, sw);

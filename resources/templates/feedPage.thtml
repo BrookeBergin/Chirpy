@@ -238,7 +238,11 @@
         <div id="container">
             <div id="column1">
                 <p class="tagline">Chirpy</p>                
-                <a class="button-style" style="width: 100px;white-space: nowrap;margin-bottom: 10px;">Home</a>
+                <!-- <a class="button-style" style="width: 100px;white-space: nowrap;margin-bottom: 10px;">Home</a> -->
+                <form method="GET" action="/feedPage/" style="margin-bottom: 10px;">
+                    <input type="hidden" name="home" value="true">
+                    <button type="submit" class="button-style" style="width: 100px; white-space: nowrap;">Home</button>
+                </form>
                 <a href="/logout" class="button-style" style="width: 100px; white-space: nowrap;">Log out</a>
                 <br>
                 <h3>People You Follow</h3>
@@ -253,7 +257,7 @@
                             <li>No one to follow yet!</li>
                         </#if>
                     <#else>
-                        <p>You must be logged in to view your followings.</p>
+                        <li>You must be logged in to view your followings.</li>
                     </#if>
                 </ul>
             </div>
@@ -268,16 +272,19 @@
                 <div id="chirp-timeline">
                     <#if searchTerm??>
                         <h2>Search results for: ${searchTerm}</h2>
+                    <#elseif home?? || !searchTerm??>
+                        <h2>Posts from people you follow</h2>
                     <#else>
                         <h2>Timeline</h2>
                     </#if>
+                    <!-- Back-end note: home should be a boolean flag passed into the template when the user visits the home route or after a search is cleared. -->
 
                     <#if chirps?has_content>
                         <#list chirps as chirp>
                             <div class="chirp">
                                 <p><strong>${chirp.username}</strong> at ${chirp.timestamp?string("MM/dd/yyyy HH:mm:ss")}</p>
                                 <form method="GET" action="/feedPage/">
-                                    <input type="hidden" name="follow" value=${chirp.username}/>
+                                    <input type="hidden" name="follow" value="${chirp.username}"/>
                                     <button type="submit" class="follow-button">Follow</button>
                                 </form>
                                 <p class="chirp-msg">${chirp.message}</p>
