@@ -140,22 +140,31 @@
             align-items: flex-end;
             justify-content: flex-end;
         }
-        
+
+        .status-message {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .error-msg {
+            color: darkred;
+            font-weight: bold;
+        }
+
+        .success-msg {
+            color: green;
+            font-weight: bold;
+        } 
         
     </style>
 
     <body>
-       <#if errorMsg?has_content>
-            <p>${errorMsg}</p>
-        </#if>
-        <#if successMsg?has_content>
-            <p>${successMsg}</p>
-        </#if>
         <div id="container">
             <div id="upper-half">
                 <p class="tagline">login</p>
             </div>
             <div id="lower-half">
+
                 <div id="form-div">
                     <form method="post" action="/formtest/" id="loginForm">
                         <div class="form-element">
@@ -171,9 +180,19 @@
                         </div>
                     </form>
                 </div>
+                <div class="status-message">
+                    <#if errorMsg?has_content>
+                        <p class="error-msg">${errorMsg}</p>
+                    </#if>
+                    <#if successMsg?has_content>
+                        <p class="success-msg">${successMsg}</p>
+                    </#if>
+                </div>
                 <div id="newUser">
                     <p id="prompt">first time logging in?</p>
-                    <a href="/registerPage/" class="button-style" style="width:100%;">Create account</a>
+                    <a href="/registerPage/" class="button-style" style="width:120px;">Create account</a>
+                    <a href="/toppage/" class="button-style" style="min-width: 120px;">Home page</a>
+                    
                 </div>
             </div>
         </div>

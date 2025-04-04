@@ -138,6 +138,33 @@
             align-items: flex-end;
             justify-content: flex-end;
         }
+        #search-bar {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        #chirp-form {
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #chirp-form textarea {
+            width: 100%;
+            max-width: 500px;
+                }
+
+        #chirp-form input[type="file"] {
+            margin-top: 5px;
+        }
+
+        #chirp-form input[type="submit"] {
+            margin-top: 10px;
+        }
         
         
     </style>
@@ -187,29 +214,10 @@
                         <p>No chirps yet.</p>
                     </#if>
                 </div>
-                <div id="form-div">
-                    <form method="post" action="/formtest/" id="loginForm">
-                        <div class="form-element">
-                            <p class="form-prompt">Username: </p>
-                            <input type="text" name="username" class="form-entry">
-                        </div>
-                        <div class="form-element">
-                            <p class="form-prompt">Password: </p>
-                            <input type="password" name="password" class="form-entry">
-                        </div>
-                        <div class="form-element" style="justify-content: flex-end;">
-                            <input type="submit" value="Submit" class="button-style">
-                        </div>
-                    </form>
-                </div>
-                <div id="newUser">
-                    <p id="prompt">first time logging in?</p>
-                    <a href="/registerPage/" class="button-style" style="width:100%;">Create account</a>
-                </div>
                 <div id= "username">
-                    <a href="/logout">Logout</a>
+                    <a href="/logout" class="button-style" style="width: 100px; white-space: nowrap;">Log out</a>
                 </div>
-            </div> -->
+            </div>
         </div>
         
     </body>
