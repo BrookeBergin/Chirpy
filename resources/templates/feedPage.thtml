@@ -206,6 +206,9 @@
                     <p id="prompt">first time logging in?</p>
                     <a href="/registerPage/" class="button-style" style="width:100%;">Create account</a>
                 </div>
+                <div id= "username">
+                    <a href="/logout">Logout</a>
+                </div>
             </div> -->
         </div>
         
