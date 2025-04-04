@@ -1,18 +1,17 @@
 package edu.georgetown.dl;
 
-import java.util.Vector;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.StringWriter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import edu.georgetown.bll.ChirpService;
 import edu.georgetown.bll.user.UserService;
 import edu.georgetown.dao.Chirp;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.util.*;
+import java.util.logging.Logger;
 
 public class FeedHandler implements HttpHandler {
 
@@ -22,11 +21,6 @@ public class FeedHandler implements HttpHandler {
     private UserService userService;
     private ChirpService chirpService;
 
-    // public FeedHandler(Logger log, DisplayLogic dl) {
-    //     logger = log;
-    //     displayLogic = dl;
-    // }
-
     public FeedHandler(Logger log, DisplayLogic dl, UserService userService, ChirpService chirpService) {
         logger = log;
         displayLogic = dl;
@@ -34,117 +28,135 @@ public class FeedHandler implements HttpHandler {
         this.chirpService = chirpService;
     }
 
+    private String extractContentDisposition(String part) {
+        int cdIndex = part.indexOf("Content-Disposition");
+        int endLine = part.indexOf("\r\n", cdIndex);
+        return part.substring(cdIndex, endLine);
+    }
+    
+    private String extractFileName(String contentDisposition) {
+        String[] segments = contentDisposition.split(";");
+        for (String seg : segments) {
+            if (seg.trim().startsWith("filename=")) {
+                return seg.split("=")[1].replace("\"", "").trim();
+            }
+        }
+        return "unknown";
+    }
+    
+    private String getFileExtension(String fileName) {
+        int dot = fileName.lastIndexOf('.');
+        return (dot == -1) ? "" : fileName.substring(dot + 1).toLowerCase();
+    }
+    
+    private boolean isAllowedExtension(String ext) {
+        return List.of("png", "jpg", "jpeg", "gif", "webp").contains(ext);
+    }
+    
+
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         logger.info("FeedHandler called");
-
-        // dataModel will hold the data to be used in the template
-        Map<String, Object> dataModel = new HashMap<String, Object>();
-        
-
-        // Vector<String> usernameVector = new Vector<>();
-
-        // for (int i = 0; i < userService.getUsers().size(); i++){
-        //         usernameVector.add(userService.getUsers().get(i).getUsername());
-        // }
-        // Extract values from the form
-        // String username = dataFromWebForm.get("username");
-        // String password = dataFromWebForm.get("password");
-
-
-        //String username = "test";
-        //String password = "password";
-
-        /* If the form was submitted, attempt to log in
-        if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
-            logger.info("Login POST detected");
-            if (username != null && password != null) {
-                boolean loginSuccess = userService.loginUser(username, password);
-
-                if (loginSuccess) {
-                    dataModel.put("message", "Login successful!");
-                    //addUserCookie(exchange, username);  // Optionally set a user cookie
-                } else {
-                    dataModel.put("message", "Login failed. Please check your credentials.");
-                }
-            }
-        } else {
-            dataModel.put("message", " ");
-        }
-        */
-        //Retrieve the logged-in username from cookies
+        Map<String, Object> dataModel = new HashMap<>();
         Map<String, String> cookies = displayLogic.getCookies(exchange);
         String username = cookies.get("username");
-        if(username == null){
+
+        if (username == null) {
             dataModel.put("message", "No user logged in. Please log in first.");
             dataModel.put("chirps", List.of());
-        }
-        else{
+        } else {
             dataModel.put("message", "Welcome to your feed, " + username + "!");
-            //If a POST request is recieved, assume a new chirp is being submitted
+
             if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
-                // Handle chirp submission
-                Map<String, String> formData = displayLogic.parseResponse(exchange);
-                String chirpMessage = formData.get("chirpMessage");
-    
-                if (chirpMessage != null && !chirpMessage.trim().isEmpty()) {
-                    chirpService.addChirp(username, chirpMessage);
-                    exchange.getResponseHeaders().set("Location", "/feedPage/");
-                    exchange.sendResponseHeaders(302, -1);
-                    return;
-                } else {
-                    logger.info("POST received with empty chirpMessage; treating as GET.");
+                String boundary = getBoundary(exchange.getRequestHeaders().getFirst("Content-Type"));
+                if (boundary != null) {
+                    Map<String, String> fields = new HashMap<>();
+                    String imageFileName = null;
+
+                    InputStream is = exchange.getRequestBody();
+                    byte[] bodyBytes = is.readAllBytes();
+                    String body = new String(bodyBytes, "ISO-8859-1");
+
+                    String[] parts = body.split("--" + boundary);
+                    for (String part : parts) {
+                        if (part.contains("Content-Disposition")) {
+                            if (part.contains("filename=")) {
+                                // File upload
+                                int start = part.indexOf("\r\n\r\n") + 4;
+                                int end = part.lastIndexOf("\r\n");
+                                byte[] fileBytes = Arrays.copyOfRange(bodyBytes, body.indexOf(part) + start, body.indexOf(part) + end);
+                                
+                                String disposition = extractContentDisposition(part);
+                                String originalFileName = extractFileName(disposition);
+                                String extension = getFileExtension(originalFileName);
+                                
+                                if (isAllowedExtension(extension)) {
+                                    String fileName = UUID.randomUUID() + "." + extension;
+                                    File uploadDir = new File("uploaded_images");
+                                    if (!uploadDir.exists()) uploadDir.mkdir();
+                                    Path filePath = uploadDir.toPath().resolve(fileName);
+                                    Files.write(filePath, fileBytes);
+                                    imageFileName = fileName;
+                                } else {
+                                    logger.warning("Unsupported file type: " + extension);
+                                }                                
+                            } else if (part.contains("name=\"chirpMessage\"")) {
+                                int start = part.indexOf("\r\n\r\n") + 4;
+                                int end = part.lastIndexOf("\r\n");
+                                String message = part.substring(start, end).trim();
+                                fields.put("chirpMessage", message);
+                            }
+                        }
+                    }
+
+                    String chirpMessage = fields.get("chirpMessage");
+                    if (chirpMessage != null && !chirpMessage.isEmpty()) {
+                        chirpService.addChirp(username, chirpMessage, imageFileName); // You'll need to update ChirpService/Chirp
+                        exchange.getResponseHeaders().set("Location", "/feedPage/");
+                        exchange.sendResponseHeaders(302, -1);
+                        return;
+                    }
                 }
             }
 
-         // Handle search via GET
+            // Handle search
             Map<String, String> queryParams = displayLogic.parseRequest(exchange);
             String searchTerm = queryParams.get("searchTerm");
 
-            logger.info("QUERY PARAMS: " + queryParams);
-            logger.info("SEARCH TERM: " + searchTerm);
-            
             if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-                logger.info("Search request: " + searchTerm);
-                List<Chirp> searchResults;
-
-                if (searchTerm.startsWith("#")) {
-                    searchResults = chirpService.searchByHashtag(searchTerm.substring(1));
-                } else {
-                    searchResults = chirpService.searchByUsername(searchTerm);
-                }
-
+                List<Chirp> searchResults = searchTerm.startsWith("#")
+                        ? chirpService.searchByHashtag(searchTerm.substring(1))
+                        : chirpService.searchByUsername(searchTerm);
                 dataModel.put("chirps", searchResults);
                 dataModel.put("searchTerm", searchTerm);
             } else {
-                // Default feed
                 dataModel.put("chirps", chirpService.getAllChirps());
             }
         }
 
-
-        // Ensure message is always set
         if (!dataModel.containsKey("message")) {
             dataModel.put("message", "");
         }
-        
-        // sw will hold the output of parsing the template
+
         StringWriter sw = new StringWriter();
-
-        // now we call the display method to parse the template and write the output
         displayLogic.parseTemplate(FORM_PAGE, dataModel, sw);
-
-        // set the type of content (in this case, we're sending back HTML)
         exchange.getResponseHeaders().set("Content-Type", "text/html");
-
-        // send the HTTP headers
-        exchange.sendResponseHeaders(200, (sw.getBuffer().length()));
-
-        // finally, write the actual response (the contents of the template)
+        exchange.sendResponseHeaders(200, sw.getBuffer().length());
         OutputStream os = exchange.getResponseBody();
         os.write(sw.toString().getBytes());
         os.close();
     }
-    
+
+    private String getBoundary(String contentType) {
+        if (contentType != null && contentType.contains("multipart/form-data")) {
+            for (String param : contentType.split(";")) {
+                param = param.trim();
+                if (param.startsWith("boundary=")) {
+                    return param.substring("boundary=".length());
+                }
+            }
+        }
+        return null;
+    }
 }
 
