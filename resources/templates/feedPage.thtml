@@ -159,8 +159,9 @@
             <div id="lower-half">
                 <!-- Form to post a new chirp -->
                 <div id="chirp-form">
-                    <form method="post" action="/feedPage/">
+                    <form method="post" action="/feedPage/" enctype="multipart/form-data">
                         <textarea name="chirpMessage" rows="3" cols="50" placeholder="What's on your mind?"></textarea><br>
+                        <input type="file" name="chirpImage"><br>
                         <input type="submit" value="Post Chirp">
                     </form>
                 </div>
@@ -176,6 +177,9 @@
                             <div class="chirp">
                                 <p><strong>${chirp.username}</strong> at ${chirp.timestamp?string("MM/dd/yyyy HH:mm:ss")}</p>
                                 <p>${chirp.message}</p>
+                                <#if chirp.imageFilename?? && chirp.imageFilename?length != 0>
+                                    <img src="/uploads/${chirp.imageFilename}" alt="Chirp Image" style="max-width: 300px; max-height: 300px; margin-top: 10px;">
+                                </#if>
                                 <hr>
                             </div>
                         </#list>

@@ -9,8 +9,12 @@ import edu.georgetown.dao.Chirp;
 public class ChirpService {
     private List<Chirp> chirps = new ArrayList<>();
 
-    public void addChirp(String username, String message){
+    public void addChirp(String username, String message) {
         chirps.add(new Chirp(username, message));
+    }
+    
+    public void addChirp(String username, String message, String imagePath) {
+        chirps.add(new Chirp(username, message, imagePath));
     }
 
     public List<Chirp> getAllChirps(){

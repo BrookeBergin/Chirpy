@@ -28,9 +28,11 @@ import edu.georgetown.dl.DefaultPageHandler;
 import edu.georgetown.dl.DisplayLogic;
 import edu.georgetown.dl.ListCookiesHandler;
 import edu.georgetown.dl.RegisterPageHandler;
+import edu.georgetown.dl.StaticFileHandler;
 import edu.georgetown.dl.FeedHandler;
 import edu.georgetown.dl.TestFormHandler;
 import edu.georgetown.dl.LogoutHandler;
+
 
 public class Chirpy {
 
@@ -96,6 +98,8 @@ public class Chirpy {
             server.createContext("/feedPage/", new FeedHandler(logger, displayLogic, userService, chirpService));
             server.createContext("/logout/", new LogoutHandler(logger, displayLogic));
             server.createContext("/", new DefaultPageHandler(logger, displayLogic));
+            server.createContext("/uploads/", new StaticFileHandler("uploaded_images"));
+
             // you will need to add to the above list to add new functionality to the web
             // service.  Just make sure that the handler for "/" is listed last.
 
