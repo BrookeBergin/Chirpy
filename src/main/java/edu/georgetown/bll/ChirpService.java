@@ -9,9 +9,11 @@ import java.util.Vector;
 import edu.georgetown.bll.user.UserService;
 import edu.georgetown.dao.Chirp;
 import edu.georgetown.dao.Chirper;
+import java.util.logging.Logger;
 
 public class ChirpService {
     private List<Chirp> chirps = new ArrayList<>();
+    private Logger logger;
 
     public void addChirp(String username, String message) {
         chirps.add(new Chirp(username, message));
@@ -21,9 +23,19 @@ public class ChirpService {
         chirps.add(new Chirp(username, message, imagePath));
     }
 
-    public List<Chirp> getAllChirps(){
-        //Return chirps sorted by timestamp descending
-        List<Chirp> sortedChirps = new ArrayList<>(chirps);
+    public List<Chirp> getAllChirps(List<Chirper> following){
+        logger.info("Displaying posts by followers");
+        List<Chirp> sortedChirps = new ArrayList<>();
+
+        for (Chirp chirp : chirps){
+            if (following.stream().anyMatch(f -> f.getUsername().equals(chirp.getUsername()))) //chatgpt
+            {
+                sortedChirps.add(chirp);
+                break;
+            }
+        }
+
+
         Collections.sort(sortedChirps, new Comparator<Chirp>(){
             public int compare(Chirp c1, Chirp c2){
                 return c2.getTimestamp().compareTo(c1.getTimestamp());

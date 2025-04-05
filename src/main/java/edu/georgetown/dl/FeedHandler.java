@@ -62,39 +62,26 @@ public class FeedHandler implements HttpHandler {
             Map<String, String> cookies = displayLogic.getCookies(exchange);
             String username = cookies.get("username");
             Chirper currentUser;
+            Map<String, String> queryParams = displayLogic.parseRequest(exchange);
+            String searchTerm = queryParams.get("searchTerm");
 
             if (username == null) {
                 dataModel.put("message", "No user logged in. Please log in first.");
                 dataModel.put("chirps", List.of());
             } else {
                 dataModel.put("username", username);
-                logger.info("!!!!!!!!!!!!!!!!!");
                 currentUser = userService.getUserByUsername(username);
                 dataModel.put("currentUser", currentUser);
                 dataModel.put("message", "Welcome to your feed, " + username + "!");
-                
             }
-            logger.info("here1");
             
-            // follow action
-            Map<String, String> queryParams = displayLogic.parseRequest(exchange);
-            logger.info("here2");  
-            // String followeeUsername = queryParams.get("follow");
-
-            // if (followeeUsername != null) {
-            //     boolean success = userService.followUser(username, followeeUsername);
-            //     if (success){
-            //         currentUser = userService.getUserByUsername(username);
-            //         dataModel.put("currentUser", currentUser);
-            //         exchange.getResponseHeaders().set("Location", "/feedPage/");
-            //         exchange.sendResponseHeaders(302, -1);
-            //         return;
-            //     }
-            // }
-            logger.info("here3");
+            // follow someone
             String userToFollow = queryParams.get("follow");
-            logger.info("--------------FOLLOWING " + userToFollow);
-        
+            if (userToFollow != null)
+            {
+                userService.followUser(username, userToFollow);
+            }
+            
             // chirp posting
                 if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
                     String boundary = getBoundary(exchange.getRequestHeaders().getFirst("Content-Type"));
@@ -148,10 +135,7 @@ public class FeedHandler implements HttpHandler {
                     }
                 }
 
-                // Handle search
-                //Map<String, String> queryParams = displayLogic.parseRequest(exchange);
-                String searchTerm = queryParams.get("searchTerm");
-
+                // Handle post display or search
                 if (searchTerm != null && !searchTerm.trim().isEmpty()) {
                     List<Chirp> searchResults = searchTerm.startsWith("#")
                             ? chirpService.searchByHashtag(searchTerm.substring(1))
@@ -159,7 +143,9 @@ public class FeedHandler implements HttpHandler {
                     dataModel.put("chirps", searchResults);
                     dataModel.put("searchTerm", searchTerm);
                 } else {
-                    dataModel.put("chirps", chirpService.getAllChirps());
+                    currentUser = userService.getUserByUsername(username);
+                    List<Chirper> following = currentUser.getFollowing();
+                    dataModel.put("chirps", chirpService.getAllChirps(following));
                 }
 
                 // Display the follow list (users the logged-in user follows)
