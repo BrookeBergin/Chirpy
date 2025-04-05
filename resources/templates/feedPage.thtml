@@ -206,6 +206,18 @@
             margin-bottom: 10px;
         }
 
+        .following-button {
+            border: 2px #fdd85d;
+            background-color: white;
+            color: black;
+            border: none;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
         .follow-button:hover {
             background-color: #e6c14c;
         }
@@ -237,18 +249,34 @@
     <body>
         <div id="container">
             <div id="column1">
-                <p class="tagline">Chirpy</p>                   
-            </div>
-            <a href="/logout" class="button-style" style="width: 100px; white-space: nowrap;">Log out</a>
-            <form method="GET" action="/feedPage/" style="margin-bottom: 10px;">
+                <p class="tagline">Chirpy</p>
+                <form method="GET" action="/feedPage/" style="margin-bottom: 10px;">
                     <input type="hidden" name="home" value="true">
                     <button type="submit" class="button-style" style="width: 100px; white-space: nowrap;">Home</button>
-            </form>
-
+                </form>                   
+                <a href="/logout" class="button-style" style="width: 100px; white-space: nowrap;">Log out</a>
+                <br>
+                <div>
+                    <h3>People You Follow</h3>
+                    <ul>
+                        <#if currentUser??>
+                            <#if currentUser.getFollowing()?has_content>
+                                <#list currentUser.getFollowing() as following>
+                                    <li>${following.getUsername()}</li>
+                                </#list>
+                            <#else>
+                                <li>You are not following anyone yet.</li>
+                            </#if>
+                        <#else>
+                            <li>You must be logged in to view your followings.</li>
+                        </#if>
+                    </ul>
+                </div>
+            </div>
             <div id="column2">
                 <h3 id="welcome">${message}</h3>
                 <div id="search-bar">
-                    <form method="GET" action="/feedPage/" style="width: 60%;">
+                    <form method="GET" action="/feedPage/" style="min-width: 70%;">
                         <input type="text" name="searchTerm"  style="width: 60%;" placeholder="Search by username or #hashtag">
                         <input type="submit" value="Search">
                     </form>
@@ -268,8 +296,10 @@
                             <div class="chirp">
                                 <p><strong>${chirp.username}</strong> at ${chirp.timestamp?string("MM/dd/yyyy HH:mm:ss")}</p>
                                 <form method="GET" action="/feedPage/">
+                                <#if currentUser?? && !currentUser.following?seq_contains(chirp.username)>
                                     <input type="hidden" name="follow" value="${chirp.username}"/>
                                     <button type="submit" class="follow-button">Follow</button>
+                                </#if>
                                 </form>
                                 <p class="chirp-msg">${chirp.message}</p>
                                 <#if chirp.imageFilename?? && chirp.imageFilename?length != 0>
@@ -292,23 +322,6 @@
                     </form>
                 </div>
             </div>
-            <br>
-                <h3>People You Follow</h3>
-                <ul>
-                    <#if username??>
-                        <#assign currentUser = userService.getUserByUsername(username)>
-                        <#if currentUser.following?? && currentUser.following?size > 0>
-                            <#list currentUser.following as following>
-                                <li>${following.username}</li>
-                            </#list>
-                        <#else>
-                            <li>No one to follow yet!</li>
-                        </#if>
-                    <#else>
-                        <li>You must be logged in to view your followings.</li>
-                    </#if>
-                </ul>
-
 
         </div>
         

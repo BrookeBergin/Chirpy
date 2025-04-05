@@ -96,17 +96,13 @@ public boolean registerUser(String username, String password){
         }
         return false;
     }
-    
-    public boolean unfollowUser(String followerUsername, String followeeUsername) {
-        Chirper follower = getUserByUsername(followerUsername);
-        Chirper followee = getUserByUsername(followeeUsername);
-    
-        if (follower != null && followee != null && follower.getFollowing().contains(followee)) {
-            follower.unfollow(followee);
-            logger.info(followerUsername + " unfollowed " + followeeUsername);
-            return true;
+
+    public Vector<Chirper> getUserFollowing(String username) {
+        Chirper user = getUserByUsername(username);
+        if (user != null) {
+            return user.getFollowing();
         }
-        return false;
+        return new Vector<>(); // Return empty if user not found
     }
     
     public Chirper getUserByUsername(String username) {
