@@ -145,6 +145,10 @@ public class FeedHandler implements HttpHandler {
                 } else {
                     currentUser = userService.getUserByUsername(username);
                     List<Chirper> following = currentUser.getFollowing();
+                    if (following == null)
+                    {
+                        following = new ArrayList<>();
+                    }
                     dataModel.put("chirps", chirpService.getAllChirps(following));
                 }
 

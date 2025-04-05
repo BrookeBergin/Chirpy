@@ -7,14 +7,16 @@
 package edu.georgetown.dao;
 
 import java.io.Serializable;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Chirper implements Serializable {
     
     private String username;
     private String password;
     private boolean publicChirps;   
-    private Vector<Chirper> following = new Vector<>();
+    private List<Chirper> following = new ArrayList<>();
 
 
     public Chirper( String username, String password ) {
@@ -47,7 +49,7 @@ public class Chirper implements Serializable {
         }
     }
     
-    public Vector<Chirper> getFollowing() {
+    public List<Chirper> getFollowing() {
         return this.following;
     }
 

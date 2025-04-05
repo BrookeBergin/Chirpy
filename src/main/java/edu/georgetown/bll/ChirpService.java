@@ -27,6 +27,11 @@ public class ChirpService {
         logger.info("Displaying posts by followers");
         List<Chirp> sortedChirps = new ArrayList<>();
 
+        if (following == null)
+        {
+            following = new ArrayList<Chirper>();
+        }
+
         for (Chirp chirp : chirps){
             if (following.stream().anyMatch(f -> f.getUsername().equals(chirp.getUsername()))) //chatgpt
             {
@@ -34,6 +39,7 @@ public class ChirpService {
                 break;
             }
         }
+        
 
 
         Collections.sort(sortedChirps, new Comparator<Chirp>(){
@@ -88,7 +94,7 @@ public class ChirpService {
     Chirper user = userService.getUserByUsername(username);
     if (user == null) return new ArrayList<>();
 
-    Vector<Chirper> following = user.getFollowing();
+    List<Chirper> following = user.getFollowing();
     List<Chirp> feed = new ArrayList<>();
 
     for (Chirp chirp : chirps) {
