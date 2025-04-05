@@ -69,7 +69,7 @@ public class FeedHandler implements HttpHandler {
             dataModel.put("username", username);
             logger.info("Username: " + username);
             dataModel.put("message", "Welcome to your feed, " + username + "!");
-            
+        }
         
         // follow action
         Map<String, String> queryParams = displayLogic.parseRequest(exchange);
@@ -155,7 +155,7 @@ public class FeedHandler implements HttpHandler {
             if (user != null) {
                 dataModel.put("followings", user.getFollowing()); // Add followings to the dataModel
             }
-            }
+            
 
         if (!dataModel.containsKey("message")) {
             dataModel.put("message", "");
