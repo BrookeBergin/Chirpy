@@ -149,6 +149,7 @@ public class FeedHandler implements HttpHandler {
                     {
                         following = new ArrayList<>();
                     }
+                    // THIS IS WHERE IT FAILS
                     dataModel.put("chirps", chirpService.getAllChirps(following));
                 }
 
