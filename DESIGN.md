@@ -101,7 +101,7 @@ class UserService {
     //Register with age verification
     method registerUser(username, password, age)
       if age < 18 then
-        log "You must be 18+ to regsiter. Come back in (18 - age) years! "
+        log "You must be 18+ to regsiter. "
         return false
       end if
 
@@ -151,8 +151,6 @@ end class
 }
 
 
-
-
 ### Display Logic (DL)
 #### Handlers
 - **RegisterHandler** (`/register/`): Handles user registration form.
@@ -170,8 +168,7 @@ end class
 Chirpy will use session cookies for authentication. A cookie will store a unique session ID mapping to a logged-in user. This class handles the HTTP requests, extracts cookies from the request and uses a template to format and display cookies in an HTML page. It returns the formatted HTML as an HTTP response. 
 
 ## Extra Feature
-For Chirpy, our group has chosen to check if the user regisering to become a chirper is above 18 or not. When registering an account, the user will be asked to enter their age and if they happen to be under 18, they will be given a message on how they will only be able to post pictures as their chirp when they are 18 and above. 
-
+For Chirpy, our group has chosen to check if the user regisering to become a chirper is above 18 or not. When registering an account, the user will be asked to enter their age and if they happen to be under 18, they will not be able to register an account. Once an 18 or older user is registered and logged in, they will be able to post chirps in form of text and images in jpeg and png form. 
 
 
 ## Functionality of Chirpy:
@@ -181,6 +178,8 @@ List and briefly describe the functionalities supported by Chirpy.
 - posting a picture along with your chirp
 - searching for chirps via hashtag
 - searching for chirps via chirper 
+- being able to log out of your account
+- Follow other people 
 
 
 ## Classes that make up the DAO
@@ -199,5 +198,10 @@ Things that could be taken off for points:
 - how list of users will be maintain
 - how cookies r used/look it
 
-
+## CHIRPY 2 includes these :
+- A logout functionality that cancels/closes the session of the currently logged in user;
+- Posting Chirps;
+- Timeline or feed, that displays Chirps;
+- Search functionality ; and
+- Functional navigation 
 
