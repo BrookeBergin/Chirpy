@@ -10,9 +10,9 @@ Chirpy is a Twitter-like short-message web service where users (chirpers) can cr
 ## Core Functionalities
 ### User Management
 - **Register a new user**
-  - Input: Unique username, password, password confirmation.
-  - Validations: Ensure username is unique, password matches confirmation.
-  - Storage: Store user data in a dynamically sized data structure (e.g., `HashMap<String, User>`).
+  - Input: Unique username, password, password confirmation, user birthdate.
+  - Validations: Ensure username is unique, password matches confirmation, age is above 18 (part of "extra" functionality)
+  - Storage: Store user data in a dynamically sized data structure
 - **User Login**
   - Input: Username, password.
   - Validations: Authenticate credentials against stored users.
@@ -20,11 +20,10 @@ Chirpy is a Twitter-like short-message web service where users (chirpers) can cr
 
 ### Chirping
 - **Submitting a Chirp**
-  - Input: Short text message (chirp) with optional hashtags.
-  - Additional; can add a picture to their chirp
+  - Input: Short text message (chirp) with optional hashtags
+  - Additional; can add a picture to their chirp (part of "extra" functionality)
 - **View Timeline**
-  - Input: Logged-in user's follow list.
-  - Output: Display chirps from followed users in chronological order.
+  - 'Home' button (and default page) displays posts by Chirpers the user follows in chronological order
 
 ### Search
 - **Searching via username**
@@ -36,23 +35,22 @@ Chirpy is a Twitter-like short-message web service where users (chirpers) can cr
 
 ## Class Design
 ### Data Access Objects (DAO)
-#### User
+#### Chirper (user)
 
-class User {
+class Chirper {
     private String username;
     private String password;
-    private Vector<String> following;
+    private List<String> following = new ArrayList<>();
     
-    public User(String username, String password) {
+    public Chirper(String username, String password) {
         this.username = username;
         this.password = password;
-        this.following = new Vector<>();
     }
     
     public String getUsername() 
-    public String getPassword()
-    public Vector<String> getFollowing() 
-    public void followUser(String username) 
+    public boolean checkPassword()
+    public List<Chirper> getFollowing() 
+    public void follow(Chirper user) 
 }
 
 #### Chirp
@@ -61,16 +59,26 @@ class Chirp {
     private String username;
     private String message;
     private Date timestamp;
+    private String imagePath;
     
     public Chirp(String username, String message) {
         this.username = username;
         this.message = message;
         this.timestamp = new Date();
     }
+
+    public Chirp(String username, String message, String imagePath) {
+        this.username = username;
+        this.message = message;
+        this.imagePath = imagePath;
+        this.timestamp = new Date();
+    }
+
     
     public String getUsername() { return username; }
     public String getMessage() { return message; }
     public Date getTimestamp() { return timestamp; }
+    public String getImageFilename(){ return imagePath; }
 }
 
 
@@ -78,10 +86,16 @@ class Chirp {
 #### UserService
 
 class UserService {
+
+    public UserService(Logger log) {
+        logger = log;
+        logger.info("UserService started");
+    }
+
     //Retrieve registered users
     method getUsers()
       return registeredUsers
-    end methid
+    end method
 
     // Register user without age verification
     method registerUser(username, password)
@@ -150,19 +164,29 @@ end class
 
 }
 
+#### ChirpService
+- creates and manages chirps
+- contains private List<Chirp> chirps = new ArrayList<>();
+
+class ChirpService {
+    private List<Chirp> chirps = new ArrayList<>();
+
+    public void addChirp(String username, String message);
+    public void addChirp(String username, String message, String imagePath);
+    public List<Chirp> getChirpsForUser(String username);
+    public List<Chirp> searchByUsername(String username);
+    public List<Chirp> searchByHashtag(String hashtag);
+}
 
 ### Display Logic (DL)
 #### Handlers
-- **RegisterHandler** (`/register/`): Handles user registration form.
-- **LoginHandler** (`/login/`): Processes login requests and sets cookies.
-- **TimelineHandler** (`/timeline/`): Displays a logged-in user's timeline.
-- **SearchHandler** (`/search/`): Handles search queries by username or hashtag.
-- **ListUsersHandler** (`/listusers/`): Displays all registered users (for debugging/testing).
+- **RegisterHandler** (`/registerPage/`): Handles user registration form.
+- **TestFormHandler** (`/formTest/`): Processes login requests and sets cookies.
+- **FeedHandler** (`/feedPage/`): Displays chirps on the feed.
+- **ListCooliesHandler** (`/listcookies/`): Displays all registered users (for debugging/testing).
+- **LogoutHandler** (`/logout/`): Logs out user.
+- **StaticFileHandler** (`/upload/`): Handles images / static files.
 
-## State Management
-- **User Data**: Stored in `HashMap<String, User>`.
-- **Chirps**: Stored in `ArrayList<Chirp>`.
-- **User Sessions**: Managed via authentication cookies.
 
 ## Cookies
 Chirpy will use session cookies for authentication. A cookie will store a unique session ID mapping to a logged-in user. This class handles the HTTP requests, extracts cookies from the request and uses a template to format and display cookies in an HTML page. It returns the formatted HTML as an HTTP response. 
