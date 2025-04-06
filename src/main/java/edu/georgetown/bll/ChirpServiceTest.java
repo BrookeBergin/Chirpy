@@ -7,6 +7,10 @@ import java.util.logging.Logger;
 import edu.georgetown.dao.Chirp;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ *  Class that tests functionality of ChirpService
+ */
+
 public class ChirpServiceTest {
 
     private ChirpService chirpService;
