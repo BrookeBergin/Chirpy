@@ -8,8 +8,6 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import com.sun.net.httpserver.HttpExchange;

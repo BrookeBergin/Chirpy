@@ -21,7 +21,6 @@ public class Chirper implements Serializable {
     
     private String username;
     private String password;
-    private boolean publicChirps;   
     private List<Chirper> following = new ArrayList<>();
 
 
@@ -33,7 +32,6 @@ public class Chirper implements Serializable {
     public Chirper( String username, String password ) {
         this.username = username;
         this.password = password;
-        this.publicChirps = true;
     }
 
     /**

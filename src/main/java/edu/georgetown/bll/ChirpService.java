@@ -5,9 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import edu.georgetown.bll.user.UserService;
 import edu.georgetown.dao.Chirp;
-import edu.georgetown.dao.Chirper;
 
 /**
  * ChirpService class

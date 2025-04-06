@@ -10,9 +10,7 @@ import java.util.Vector;
 import java.util.logging.Logger;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import edu.georgetown.bll.ChirpService;
 import edu.georgetown.bll.user.UserService;
-import edu.georgetown.dao.Chirp;
 import edu.georgetown.dao.Chirper;
 
 /**
