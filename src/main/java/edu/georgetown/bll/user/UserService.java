@@ -28,7 +28,6 @@ public class UserService {
     public UserService(Logger log) {
         logger = log;
         logger.info("UserService started");
-
     }
 
     /**
