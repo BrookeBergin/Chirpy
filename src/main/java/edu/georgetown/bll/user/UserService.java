@@ -20,8 +20,8 @@ public class UserService {
     } 
    //Register a user
    public Vector<Chirper> getUsers() {   
-    return registeredUsers;
-}
+        return registeredUsers;
+    }
 public boolean registerUser(String username, String password){
     //checking if username is already taken
     for (Chirper user: registeredUsers){

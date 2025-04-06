@@ -9,21 +9,29 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 import java.util.logging.Logger;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import edu.georgetown.bll.ChirpService;
+import edu.georgetown.bll.user.UserService;
+import edu.georgetown.dao.Chirp;
+import edu.georgetown.dao.Chirper;
 
 public class ListCookiesHandler implements HttpHandler {
 
     final String COOKIELIST_PAGE = "showcookies.thtml";
     private Logger logger;
     private DisplayLogic displayLogic;
+    private UserService userService;
 
-    private static final List<String> allUsernames = new ArrayList<>();
+    //private static final List<String> allUsernames = new ArrayList<>();
+    Vector<Chirper> allUsernames;
 
-    public ListCookiesHandler(Logger log, DisplayLogic dl) {
+    public ListCookiesHandler(Logger log, DisplayLogic dl, UserService userService) {
         logger = log;
         displayLogic = dl;
+        this.userService = userService;
     }
 
     @Override
@@ -39,18 +47,18 @@ public class ListCookiesHandler implements HttpHandler {
 
             if (cookies != null) {
                 
-                dataModel.put("cookienames", cookies.keySet());
-
-                List<String> cookieValuesList = new ArrayList<>(cookies.values());
-                dataModel.put("cookievalues", cookieValuesList);
-                String usernameCookie = cookies.get("username");
-                if (usernameCookie != null && !usernameCookie.isEmpty()) {
-                    synchronized(allUsernames) {
-                        if (!allUsernames.contains(usernameCookie)) {
-                            allUsernames.add(usernameCookie);
-                        }
-                    }
-                }
+                //dataModel.put("cookienames", cookies.keySet());
+                //List<String> cookieValuesList = new ArrayList<>(cookies.values());
+                //dataModel.put("cookievalues", cookieValuesList);
+                //String usernameCookie = cookies.get("username");
+                // if (usernameCookie != null && !usernameCookie.isEmpty()) {
+                //     synchronized(allUsernames) {
+                //         if (!allUsernames.contains(usernameCookie)) {
+                //             allUsernames.add(usernameCookie);
+                //         }
+                //     }
+                // }
+                allUsernames = userService.getUsers();
                 dataModel.put("allUsernames", allUsernames);
             } else {
                 // if cookies is null, just fill the dataModel with a date as fallback

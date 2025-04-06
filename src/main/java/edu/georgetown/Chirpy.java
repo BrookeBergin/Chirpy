@@ -86,7 +86,7 @@ public class Chirpy {
             // the service. The top-level path is "/", and that should be listed last.
             server.createContext("/formtest/", new TestFormHandler(logger, displayLogic, userService));
             server.createContext("/registerPage/", new RegisterPageHandler(logger, displayLogic, userService));
-            server.createContext("/listcookies/", new ListCookiesHandler(logger, displayLogic));
+            server.createContext("/listcookies/", new ListCookiesHandler(logger, displayLogic, userService));
             //Create a new ChirpService Instance and pass it tp FeedHandler
             ChirpService chirpService = new ChirpService();
             server.createContext("/feedPage/", new FeedHandler(logger, displayLogic, userService, chirpService));

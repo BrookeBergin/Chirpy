@@ -78,7 +78,7 @@ public class TestFormHandler implements HttpHandler {
         else{
             dataModel.put("message", "Welcome to your feed, " + user + "!");
             dataModel.put("username", user);
-            logger.info("added user to datamodel!!!!!!!!!!!");
+            logger.info("added user to datamodel");
         }
 
 
