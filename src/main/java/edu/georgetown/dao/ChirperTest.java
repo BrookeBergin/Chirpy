@@ -4,6 +4,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Class to test methods in Chirper class
+ */
 public class ChirperTest {
     private Chirper chirper;
 

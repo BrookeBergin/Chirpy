@@ -3,7 +3,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-
+/**
+ * Class to test Chirp objects
+ */
 public class ChirpTest {
     private Chirp chirp;
 
