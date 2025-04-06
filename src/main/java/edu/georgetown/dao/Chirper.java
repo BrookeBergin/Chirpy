@@ -43,12 +43,6 @@ public class Chirper implements Serializable {
         }
     }
     
-    public void unfollow(Chirper user) {
-        if (following.contains(user)) {
-            following.remove(user);
-        }
-    }
-    
     public List<Chirper> getFollowing() {
         return this.following;
     }

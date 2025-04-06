@@ -167,7 +167,6 @@ public class FeedHandler implements HttpHandler {
                         }
                         dataModel.put("chirps", searchResults);
                         
-                        //dataModel.put("chirps", chirpService.getFollowingChirps(following));
                     }
                 }
 

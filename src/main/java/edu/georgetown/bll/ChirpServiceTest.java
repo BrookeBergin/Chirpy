@@ -18,20 +18,20 @@ public class ChirpServiceTest {
         chirpService = new ChirpService();
     }
 
-    @Test
-    void testAddChirpValid(){
-        chirpService.addChirp("hoya", "Hello World");
-        assertEquals(1, chirpService.getAllChirps().size(), "Chirp should be added successfully");
-    }
+    // @Test
+    // void testAddChirpValid(){
+    //     chirpService.addChirp("hoya", "Hello World");
+    //     assertEquals(1, chirpService.getAllChirps().size(), "Chirp should be added successfully");
+    // }
 
-    @Test
-    void testGetAllChirps(){
-        chirpService.addChirp("hoya", "Hello world");
-        chirpService.addChirp("saxa", "Goodbye world");
+    // @Test
+    // void testGetAllChirps(){
+    //     chirpService.addChirp("hoya", "Hello world");
+    //     chirpService.addChirp("saxa", "Goodbye world");
 
-        List<Chirp> chirps = chirpService.getAllChirps();
-        assertEquals(2, chirps.size(), "Should retrieve all chirps.");
-    }
+    //     List<Chirp> chirps = chirpService.getAllChirps();
+    //     assertEquals(2, chirps.size(), "Should retrieve all chirps.");
+    // }
 
     @Test
     void testGetChirpsForUserValid(){
