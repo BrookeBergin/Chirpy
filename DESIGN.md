@@ -10,7 +10,7 @@ Chirpy is a Twitter-like short-message web service where users (chirpers) can cr
 ## Core Functionalities
 ### User Management
 - **Register a new user**
-  - Input: Unique username, password, password confirmation, user birthdate
+  - Input: Unique username, password, password confirmation, user birthdate.
   - Validations: Ensure username is unique, password matches confirmation, age is above 18 (part of "extra" functionality)
   - Storage: Store user data in a dynamically sized data structure
 - **User Login**
