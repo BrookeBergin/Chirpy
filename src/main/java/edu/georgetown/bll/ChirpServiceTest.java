@@ -1,20 +1,24 @@
 package edu.georgetown.bll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import edu.georgetown.bll.user.UserServiceTest;
+// import edu.georgetown.bll.user.UserServiceTest;
 import java.util.List;
-import java.util.logging.Logger;
+// import java.util.logging.Logger;
 import edu.georgetown.dao.Chirp;
 import static org.junit.jupiter.api.Assertions.*;
+
+/**
+ *  Class that tests functionality of ChirpService
+ */
 
 public class ChirpServiceTest {
 
     private ChirpService chirpService;
-    private Logger testLogger;
+    // private Logger testLogger;
 
     @BeforeEach
     void setUp(){
-        testLogger = Logger.getLogger(UserServiceTest.class.getName());
+        // testLogger = Logger.getLogger(UserServiceTest.class.getName());
         chirpService = new ChirpService();
     }
 

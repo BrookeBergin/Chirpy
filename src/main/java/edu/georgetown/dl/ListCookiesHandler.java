@@ -10,11 +10,18 @@ import java.util.Vector;
 import java.util.logging.Logger;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import edu.georgetown.bll.ChirpService;
 import edu.georgetown.bll.user.UserService;
-import edu.georgetown.dao.Chirp;
 import edu.georgetown.dao.Chirper;
 
+/**
+ * class ListCookiesHandler is the handler for the showcookies.ththml page that lists
+ * all the users currently registered for the Chirpy service
+ * contains a logger, display logic, and user service
+ * 
+ * @author Anura Sharma, Brooke Bergin, Diane Cho, Kamryn Lee-Caracci
+ * @version 1.0
+ * @since 1.0
+ */
 public class ListCookiesHandler implements HttpHandler {
 
     final String COOKIELIST_PAGE = "showcookies.thtml";
@@ -25,12 +32,26 @@ public class ListCookiesHandler implements HttpHandler {
     //private static final List<String> allUsernames = new ArrayList<>();
     Vector<Chirper> allUsernames;
 
+    /**
+     * constructor for class
+     * @param log the logger
+     * @param dl the display logic
+     * @param userService the user service
+     */
     public ListCookiesHandler(Logger log, DisplayLogic dl, UserService userService) {
         logger = log;
         displayLogic = dl;
         this.userService = userService;
     }
 
+    /**
+     * the handler (main function for this class)
+     * 
+     * does all functionality - retrieves list of users and passes it to html to be parsed as a list
+     * 
+     * @param exchange the http exchange
+     * @throws IOException for server errors
+     */
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         logger.info("ListCookiesHandler called");
@@ -38,23 +59,10 @@ public class ListCookiesHandler implements HttpHandler {
         // dataModel will hold the data to be used in the template
         Map<String, Object> dataModel = new HashMap<String, Object>();
     
-        try { // disclosure: ChatGPT helped me with the syntax of the try/catch (31-46)
-            // grab all of the cookies that have been set
+        try {
             Map<String, String> cookies = displayLogic.getCookies(exchange);
 
             if (cookies != null) {
-                
-                //dataModel.put("cookienames", cookies.keySet());
-                //List<String> cookieValuesList = new ArrayList<>(cookies.values());
-                //dataModel.put("cookievalues", cookieValuesList);
-                //String usernameCookie = cookies.get("username");
-                // if (usernameCookie != null && !usernameCookie.isEmpty()) {
-                //     synchronized(allUsernames) {
-                //         if (!allUsernames.contains(usernameCookie)) {
-                //             allUsernames.add(usernameCookie);
-                //         }
-                //     }
-                // }
                 allUsernames = userService.getUsers();
                 dataModel.put("allUsernames", allUsernames);
             } else {
@@ -62,9 +70,8 @@ public class ListCookiesHandler implements HttpHandler {
                 dataModel.put("date", new Date().toString());
             }
         } catch (Exception e) {
-            // If an error occurs (e.g., null cookies or any other error), fallback to a default value
             logger.warning("Error retrieving cookies: " + e.getMessage());
-            dataModel.put("date", new Date().toString());  // Use current date if error occurs
+            dataModel.put("date", new Date().toString());  //current date
         }
     
         // sw will hold the output of parsing the template

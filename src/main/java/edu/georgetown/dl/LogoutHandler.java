@@ -6,15 +6,33 @@ import java.util.logging.Logger;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
+/**
+ * class LogoutHandler handles the log out of a user 
+ * contains logger and display logic
+ * 
+ * @author Anura Sharma, Brooke Bergin, Diane Cho, Kamryn Lee-Caracci
+ * @version 1.0
+ * @since 1.0
+ */
 public class LogoutHandler implements HttpHandler{
     private Logger logger;
     private DisplayLogic displayLogic;
 
+    /** 
+     * constructor for class
+     * @param logger the logger
+     * @param displayLogic the display logic
+     */
     public LogoutHandler(Logger logger, DisplayLogic displayLogic){
         this.logger = logger;
         this.displayLogic = displayLogic;
     }
 
+    /** 
+     * handle, handles the log out
+     * @param exchange the http exchange
+     * @throws IOException for server errors
+     */
     @Override
     public void handle(HttpExchange exchange) throws IOException{
         logger.info("LogoutHandler called");

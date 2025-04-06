@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.logging.Logger;
 
+/**
+ * UserServiceTest is the class for testing methods in UserService
+ */
 public class UserServiceTest {
     private UserService userService;
     private Logger testLogger;

@@ -27,7 +27,13 @@ import edu.georgetown.dl.FeedHandler;
 import edu.georgetown.dl.TestFormHandler;
 import edu.georgetown.dl.LogoutHandler;
 
-
+/**
+    * Chipry class - main logic for the Chirpy platform.
+    *
+    * @author Anura Sharma, Brooke Bergin, Diane Cho, Kamryn Lee-Caracci
+    * @version 1.0
+    * @since 1.0
+*/
 public class Chirpy {
 
     final static int PORT = 8080;
@@ -36,6 +42,13 @@ public class Chirpy {
     private DisplayLogic displayLogic;
     private UserService userService;
 
+    /**
+     * Constructor for Chirpy, an instance of the class Chirpy.
+     * 
+     * This initializes the beginnings of the Chirpy service including the logger,
+     * display logic, and user service.
+     * 
+     */
     public Chirpy() {
         /* 
          * A Logger is a thing that records "log" messages.  This is better
@@ -74,7 +87,10 @@ public class Chirpy {
     }
 
     /**
-     * Start the web service
+     * Start the web service.
+     * 
+     * @throws IOExcepction for input/output errors (for example, an error
+     * connecting to the server.)
      */
     private void startService() {
   
@@ -110,18 +126,14 @@ public class Chirpy {
         logger.info("Server started on port " + PORT);
     }
 
+    /**
+     * main - the entry point for Chirpy
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
 
-        //Chirpy ws = new Chirpy();
-
-        // let's start up the various business logic services
-        //UserService userService = new UserService(ws.logger);
-
-        // finally, let's begin the web service so that we can start handling requests
-        //ws.startService();
-
         Chirpy ws = new Chirpy();
-        //Initialize UserService so that it can be passed to handlers
         ws.startService();
         
     }

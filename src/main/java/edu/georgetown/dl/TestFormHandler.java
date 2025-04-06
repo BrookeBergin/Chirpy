@@ -11,6 +11,16 @@ import com.sun.net.httpserver.HttpHandler;
 
 import edu.georgetown.bll.user.UserService;
 
+/**
+ * class TestFormHandler is the class that handles log in info
+ * (the login form is referred to as the TestForm in the Chirpy application)
+ * 
+ * contains the logger, display logic, and user service
+ * 
+ * @author Anura Sharma, Brooke Bergin, Diane Cho, Kamryn Lee-Caracci
+ * @version 1.0
+ * @since 1.0
+ */
 public class TestFormHandler implements HttpHandler {
 
     final String FORM_PAGE = "formtest.thtml";
@@ -18,17 +28,27 @@ public class TestFormHandler implements HttpHandler {
     private DisplayLogic displayLogic;
     private UserService userService;
 
-    // public TestFormHandler(Logger log, DisplayLogic dl) {
-    //     logger = log;
-    //     displayLogic = dl;
-    // }
-
+    /**
+     * the constructor for the class
+     * @param log the logger
+     * @param dl the display logic
+     * @param userService the user service
+     */
     public TestFormHandler(Logger log, DisplayLogic dl, UserService userService) {
         logger = log;
         displayLogic = dl;
         this.userService = userService;
     }
 
+    /**
+     * the handle function handles all login functionality
+     * 
+     * logs in and redirects to feed page
+     * sends message to datamodel to be displayed in html
+     * 
+     * @param exchange the http exchange used
+     * @throws IOException for server or connection errors
+     */
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         logger.info("TestFormHandler called");
@@ -36,10 +56,8 @@ public class TestFormHandler implements HttpHandler {
         // dataModel will hold the data to be used in the template
         Map<String, Object> dataModel = new HashMap<String, Object>();
 
-        //String username = "test";
-        //String password = "password";
-
-        // If the form was submitted, attempt to log in
+        
+        // detect post request, proceed with login
         if ("POST".equalsIgnoreCase(exchange.getRequestMethod())) {
             logger.info("Login POST detected");
 
@@ -53,9 +71,8 @@ public class TestFormHandler implements HttpHandler {
 
                 if (loginSuccess) {
                     dataModel.put("message", "Login successful!");
-                    //addUserCookie(exchange, username);  // Optionally set a user cookie
-                    //Set a cookie and then redirect to the FeedHandler page
                     displayLogic.addCookie(exchange, "username", username);
+                    // redirect to feedpage!
                     exchange.getResponseHeaders().set("Location", "/feedPage/");
                     exchange.sendResponseHeaders(302, -1);
                     return;
