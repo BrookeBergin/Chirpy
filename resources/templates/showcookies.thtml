@@ -14,18 +14,12 @@
         <h2>Here's a list of cookies chirpy is using.</h2>
         <br>
         <br>
-        <h2>Cookie names</h2>
-        <ul>
-            <#list cookienames as name>
-                <li>${name}</li>
-            </#list>
-        </ul>
         <br>
-        <h2>Cookie values</h2>
+        <h2>Users that have registered</h2>
         <#if allUsernames?? && allUsernames?size != 0>
             <ul>
                 <#list allUsernames as u>
-                    <li>${u}</li>
+                    <li><b>user:</b> ${u} <b>username:</b> ${u.username}</li>
                 </#list>
             </ul>
         <#else>

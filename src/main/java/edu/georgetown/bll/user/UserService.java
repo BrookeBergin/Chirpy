@@ -3,6 +3,8 @@ package edu.georgetown.bll.user;
 
 import java.util.Vector;
 import java.util.logging.Logger;
+import java.util.List;
+import java.util.ArrayList;
 
 import edu.georgetown.dao.*;
 
@@ -18,8 +20,8 @@ public class UserService {
     } 
    //Register a user
    public Vector<Chirper> getUsers() {   
-    return registeredUsers;
-}
+        return registeredUsers;
+    }
 public boolean registerUser(String username, String password){
     //checking if username is already taken
     for (Chirper user: registeredUsers){
@@ -96,17 +98,13 @@ public boolean registerUser(String username, String password){
         }
         return false;
     }
-    
-    public boolean unfollowUser(String followerUsername, String followeeUsername) {
-        Chirper follower = getUserByUsername(followerUsername);
-        Chirper followee = getUserByUsername(followeeUsername);
-    
-        if (follower != null && followee != null && follower.getFollowing().contains(followee)) {
-            follower.unfollow(followee);
-            logger.info(followerUsername + " unfollowed " + followeeUsername);
-            return true;
+
+    public List<Chirper> getUserFollowing(String username) {
+        Chirper user = getUserByUsername(username);
+        if (user != null) {
+            return user.getFollowing();
         }
-        return false;
+        return new ArrayList<>(); // Return empty if user not found
     }
     
     public Chirper getUserByUsername(String username) {

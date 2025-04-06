@@ -9,9 +9,11 @@ import java.util.Vector;
 import edu.georgetown.bll.user.UserService;
 import edu.georgetown.dao.Chirp;
 import edu.georgetown.dao.Chirper;
+import java.util.logging.Logger;
 
 public class ChirpService {
     private List<Chirp> chirps = new ArrayList<>();
+    private Logger logger;
 
     public void addChirp(String username, String message) {
         chirps.add(new Chirp(username, message));
@@ -21,16 +23,37 @@ public class ChirpService {
         chirps.add(new Chirp(username, message, imagePath));
     }
 
-    public List<Chirp> getAllChirps(){
-        //Return chirps sorted by timestamp descending
-        List<Chirp> sortedChirps = new ArrayList<>(chirps);
-        Collections.sort(sortedChirps, new Comparator<Chirp>(){
-            public int compare(Chirp c1, Chirp c2){
-                return c2.getTimestamp().compareTo(c1.getTimestamp());
-            }
-        });
-        return sortedChirps;
-    }   
+    // public List<Chirp> getFollowingChirps(List<Chirper> following){
+    //     logger.info("Displaying posts by followers");
+    //     List<Chirp> sortedChirps = new ArrayList<>();
+
+    //     for (Chirp chirp : chirps){
+    //         if (following.stream().anyMatch(f -> f.getUsername().equals(chirp.getUsername()))) //chatgpt
+    //         {
+    //             sortedChirps.add(chirp);
+    //         }
+    //     }
+        
+    //     Collections.sort(sortedChirps, new Comparator<Chirp>(){
+    //         public int compare(Chirp c1, Chirp c2){
+    //             return c2.getTimestamp().compareTo(c1.getTimestamp());
+    //         }
+    //     });
+    
+    //     return sortedChirps;
+    // }
+    
+    // public List<Chirp> getAllChirps(){
+    //     logger.info("Displaying all posts");
+    //     List<Chirp> sortedChirps = new ArrayList<>();
+    //     Collections.sort(sortedChirps, new Comparator<Chirp>(){
+    //         public int compare(Chirp c1, Chirp c2){
+    //             return c2.getTimestamp().compareTo(c1.getTimestamp());
+    //         }
+    //     });
+        
+    //     return sortedChirps;
+    // }   
 
     public List<Chirp> getChirpsForUser(String username){
         List<Chirp> userChirps = new ArrayList<>();
@@ -76,7 +99,7 @@ public class ChirpService {
     Chirper user = userService.getUserByUsername(username);
     if (user == null) return new ArrayList<>();
 
-    Vector<Chirper> following = user.getFollowing();
+    List<Chirper> following = user.getFollowing();
     List<Chirp> feed = new ArrayList<>();
 
     for (Chirp chirp : chirps) {
