@@ -23,32 +23,37 @@ public class ChirpService {
         chirps.add(new Chirp(username, message, imagePath));
     }
 
-    public List<Chirp> getAllChirps(List<Chirper> following){
+    public List<Chirp> getFollowingChirps(List<Chirper> following){
         logger.info("Displaying posts by followers");
         List<Chirp> sortedChirps = new ArrayList<>();
-
-        if (following == null)
-        {
-            following = new ArrayList<Chirper>();
-        }
 
         for (Chirp chirp : chirps){
             if (following.stream().anyMatch(f -> f.getUsername().equals(chirp.getUsername()))) //chatgpt
             {
                 sortedChirps.add(chirp);
-                break;
             }
         }
         
-
-
         Collections.sort(sortedChirps, new Comparator<Chirp>(){
             public int compare(Chirp c1, Chirp c2){
                 return c2.getTimestamp().compareTo(c1.getTimestamp());
             }
         });
+    
         return sortedChirps;
-    }   
+    }
+    
+    // public List<Chirp> getAllChirps(){
+    //     logger.info("Displaying all posts");
+    //     List<Chirp> sortedChirps = new ArrayList<>();
+    //     Collections.sort(sortedChirps, new Comparator<Chirp>(){
+    //         public int compare(Chirp c1, Chirp c2){
+    //             return c2.getTimestamp().compareTo(c1.getTimestamp());
+    //         }
+    //     });
+        
+    //     return sortedChirps;
+    // }   
 
     public List<Chirp> getChirpsForUser(String username){
         List<Chirp> userChirps = new ArrayList<>();

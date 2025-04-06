@@ -149,8 +149,26 @@ public class FeedHandler implements HttpHandler {
                     {
                         following = new ArrayList<>();
                     }
-                    // THIS IS WHERE IT FAILS
-                    dataModel.put("chirps", chirpService.getAllChirps(following));
+                    if (following.isEmpty())
+                    {
+                        //dataModel.put("chirps", chirpService.getAllChirps());
+                        logger.info("Displaying no posts");
+                        List<Chirp> noChirps = new ArrayList<>();
+                        dataModel.put("chirps", noChirps);
+                    }
+                    else{
+                        logger.info("displaying posts by following");
+                        System.out.println(following);
+                        List<Chirp> searchResults = new ArrayList<>();
+                        for (Chirper f : following)
+                        {
+                            List<Chirp> userChirps = chirpService.searchByUsername(f.getUsername());
+                            searchResults.addAll(userChirps);
+                        }
+                        dataModel.put("chirps", searchResults);
+                        
+                        //dataModel.put("chirps", chirpService.getFollowingChirps(following));
+                    }
                 }
 
                 // Display the follow list (users the logged-in user follows)
