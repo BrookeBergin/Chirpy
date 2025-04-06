@@ -15,8 +15,11 @@ import java.util.logging.Logger;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-// to handle a web request, the class needs to implement the `HttpHandler` interface 
-// and it must contain a method, `handle`, that takes an `HttpExchange` as an argument
+/**
+ * class that handles default page requests
+ * to handle a web request, the class needs to implement the `HttpHandler` interface 
+ * and it must contain a method, `handle`, that takes an `HttpExchange` as an argument
+*/
 public class DefaultPageHandler implements HttpHandler {
 
     private Logger logger;
@@ -28,11 +31,21 @@ public class DefaultPageHandler implements HttpHandler {
      */
     private final String DEFAULT_PAGE = "toppage.thtml";
 
+    /**
+     * constructor for default page handler
+     * @param log - the logger
+     * @param dl - the display logic
+     */
     public DefaultPageHandler(Logger log, DisplayLogic dl) {
         logger = log;
         displayLogic = dl;
     }
 
+    /**
+     * handle, the main function that handles logic
+     * @param exchange an HttpExchange 
+     * @throws IOException for server errors
+     */
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         logger.info(">>>> FeedHandler.handle() called for path: " + exchange.getRequestURI());

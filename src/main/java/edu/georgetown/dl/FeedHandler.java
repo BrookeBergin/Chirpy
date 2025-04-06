@@ -13,6 +13,10 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.logging.Logger;
 
+/**
+ * class FeedHandler handles all functionality of the feed page, 
+ * the page posts are created and displayed
+ */
 public class FeedHandler implements HttpHandler {
 
     final String FORM_PAGE = "feedPage.thtml";
@@ -21,6 +25,13 @@ public class FeedHandler implements HttpHandler {
     private UserService userService;
     private ChirpService chirpService;
 
+    /**
+     * FeedHandler constructor
+     * @param log the logger
+     * @param dl the display logic
+     * @param userService the user service
+     * @param chirpService the chirp service for posts
+     */
     public FeedHandler(Logger log, DisplayLogic dl, UserService userService, ChirpService chirpService) {
         logger = log;
         displayLogic = dl;
@@ -28,12 +39,21 @@ public class FeedHandler implements HttpHandler {
         this.chirpService = chirpService;
     }
 
+    /**
+     * extracts the parameter from the string for content parsing
+     * @param part a string to extract
+     */
     private String extractContentDisposition(String part) {
         int cdIndex = part.indexOf("Content-Disposition");
         int endLine = part.indexOf("\r\n", cdIndex);
         return part.substring(cdIndex, endLine);
     }
     
+    /**
+     * extracts the file name for filepath parsing
+     * @param contentDisposition
+     * @return
+     */
     private String extractFileName(String contentDisposition) {
         String[] segments = contentDisposition.split(";");
         for (String seg : segments) {
@@ -44,16 +64,32 @@ public class FeedHandler implements HttpHandler {
         return "unknown";
     }
     
+    /**
+     * returns the file extension parsed
+     * @param fileName to parse
+     * @return parsed : the file extension
+     */
     private String getFileExtension(String fileName) {
         int dot = fileName.lastIndexOf('.');
         return (dot == -1) ? "" : fileName.substring(dot + 1).toLowerCase();
     }
     
+    /**
+     * returns a list of allowed extensions
+     * @return a list of extensions
+     */
     private boolean isAllowedExtension(String ext) {
         return List.of("png", "jpg", "jpeg", "gif", "webp").contains(ext);
     }
     
-
+    /**
+     * handle - the main function in the FeedHandler class
+     * handles all functionality in the feed
+     * 
+     * @param exchange an httpexchange
+     * 
+     * @throws IOException for server errors
+     */
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         logger.info("FeedHandler called");
@@ -127,7 +163,7 @@ public class FeedHandler implements HttpHandler {
 
                         String chirpMessage = fields.get("chirpMessage");
                         if (chirpMessage != null && !chirpMessage.isEmpty()) {
-                            chirpService.addChirp(username, chirpMessage, imageFileName); // You'll need to update ChirpService/Chirp
+                            chirpService.addChirp(username, chirpMessage, imageFileName);
                             exchange.getResponseHeaders().set("Location", "/feedPage/");
                             exchange.sendResponseHeaders(302, -1);
                             return;
@@ -195,9 +231,12 @@ public class FeedHandler implements HttpHandler {
             e.printStackTrace();
         }
     }
-    
-    
 
+    /**
+     * gets the boundary for the content type
+     * @param contentType to be specified
+     * @return the boundary for that content type
+     */
     private String getBoundary(String contentType) {
         if (contentType != null && contentType.contains("multipart/form-data")) {
             for (String param : contentType.split(";")) {

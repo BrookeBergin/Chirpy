@@ -17,6 +17,16 @@ import com.sun.net.httpserver.HttpHandler;
 
 import edu.georgetown.bll.user.UserService;
 
+/**
+ * RegisterPageHandler the handler for the registration html page
+ * contains logger, display logic, userservice
+ * 
+ * regisers users to the Chirpy service
+ * 
+ * @author Anura Sharma, Brooke Bergin, Diane Cho, Kamryn Lee-Caracci
+ * @version 1.0
+ * @since 1.0
+ */
 public class RegisterPageHandler implements HttpHandler {
 
     final String FORM_PAGE = "registerPage.thtml";
@@ -24,12 +34,25 @@ public class RegisterPageHandler implements HttpHandler {
     private DisplayLogic displayLogic;
     private UserService userService;
 
+    /**
+     * constructor for class
+     * @param log the logger
+     * @param dl the display logic
+     * @param userService the user service
+     */
     public RegisterPageHandler(Logger log, DisplayLogic dl, UserService userService) {
         logger = log;
         displayLogic = dl;
         this.userService = userService;
     }
 
+    /**
+     * handle - handles the functionality of the class
+     * adds username, password, password confirmation, and birthday to datamodel
+     * sends datamodel
+     * calls calculateAge and checks if user is above 18
+     * checks if registration is successful
+     */
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         logger.info("RegisterPageHandler called");
@@ -76,6 +99,11 @@ public class RegisterPageHandler implements HttpHandler {
         os.close();
     }
 
+    /**
+     * calculateAge checks the age against the current day
+     * @param birthdayStr the birthday of the age to be checked
+     * @return the age, or 0 if invalid
+     */
     private int calculateAge(String birthdayStr) {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
