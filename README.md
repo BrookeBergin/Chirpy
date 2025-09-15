@@ -1,5 +1,11 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/6k-9MchD)
-[![Open in Codespaces](https://classroom.github.com/assets/launch-codespace-2972f46106e565e64193e422d61a12cf1da4916b45550586e14ef0a7c637dd04.svg)](https://classroom.github.com/open-in-codespaces?assignment_repo_id=17954692)
+# My Contributions to Chirpy
+This social media tool was created as a group project in Spring 2025 Georgetown University Advanced Programming. I served primarily as the group's front-end engineer, creating all of the HTML and CSS for this project. On the backend, I created the functions for searching/displaying posts by username and hashtag. 
+
+On this project, I went a step above the requirements by making the CSS elaborate (as no html/css was explicity required). We also chose to include the option to post images, a feature I worked on.
+
+The following information was the original README given to the class.
+
+
 # Programming Assignment: Chirpy
 ## COSC 2020 - Advanced Programming
 
