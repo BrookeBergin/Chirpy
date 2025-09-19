@@ -10,6 +10,7 @@
     - [What is Chirpy?](#what-is-chirpy)
     - [Code Organization](#code-organization)
 - [Usage](#usage)
+    - [Screenshots](#screenshots)
  
 
 ## My Contributions to Chirpy
@@ -53,7 +54,7 @@ The code in our repo is divided into three main packages:
 * [display logic (DL)](/src/main/java/edu/georgetown/dl/): a package containing classes that determine the appearance of our site to the user.
 
 
-### Usage
+# Usage
 
 You can run Chirpy from inside your Codespaces environment and access the web service via your web browser.
 
@@ -71,3 +72,7 @@ This site is local only. You can log in and out and make as many users & posts a
 * you cannot see posts made by other users
 
 Enjoy Chirping!
+
+## Screenshots
+<img src="resources/images/chirpyHome.png" alt="Chirpy Home Screen">
+<img src="resources/images/chirpyDemo.png" alt="Chirpy Timeline">
