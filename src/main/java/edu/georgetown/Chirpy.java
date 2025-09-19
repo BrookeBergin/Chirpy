@@ -1,7 +1,6 @@
 /**
  * Chirpy -- a really basic social networking site
  * 
- * Micah Sherr <msherr@cs.georgetown.edu>
  */
 
 package edu.georgetown;
